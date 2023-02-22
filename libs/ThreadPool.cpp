@@ -25,20 +25,6 @@ ThreadPool::ThreadPool(unsigned int size) : stop_(false) {
 //overall, in this case, each thread matches a EventLoop, when EventLoop asks quit and ThreadPool asks stop, thread
 
 
-bool ThreadPool::AddTask(const std::function<void()>& func) {
-    if(!stop_) {
-        {
-            std::unique_lock<std::mutex> lock(tasks_mutex_);
-            tasks_.emplace(func);
-        }
-        condition_variable_.notify_one();
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
 ThreadPool::~ThreadPool() {
     {
         std::unique_lock<std::mutex> lock(tasks_mutex_);

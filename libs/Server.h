@@ -23,7 +23,7 @@ private:
     EventLoop* main_reactor_;
     std::unique_ptr<Acceptor> acceptor_;
     std::map<int, std::unique_ptr<Connection>> connections_;
-    std::vector<std::shared_ptr<EventLoop>> sub_reactors_;
+    std::vector<std::unique_ptr<EventLoop>> sub_reactors_;
     std::unique_ptr<ThreadPool> thread_pool_;
     std::function<void(Connection*)> on_receive_callback_;
     Logger logger_;

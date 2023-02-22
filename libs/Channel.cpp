@@ -47,13 +47,6 @@ void Channel::SetReadyEvents(uint32_t ev) {
     ready_events_ |= ev;
 }
 
-void Channel::SetReadCallback(std::function<void()>&& callback) {
-    read_callback_ = callback;
-}
-
-void Channel::SetWriteCallback(std::function<void()>&& callback) {
-    write_callback_ = callback;
-}
 
 void Channel::HandleEvent() {
     if (ready_events_ & (EPOLLIN | EPOLLPRI)) {  //EPOLLIN means the associated file is available for read(2) operations.

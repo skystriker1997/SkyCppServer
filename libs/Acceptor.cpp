@@ -23,6 +23,4 @@ void Acceptor::AcceptConnection() {
     new_connection_callback_(clnt_sock.get());
 }
 
-void Acceptor::SetNewConnectionCallback(std::function<void(Socket*)>&& callback) {
-    new_connection_callback_ = callback;
-}
+

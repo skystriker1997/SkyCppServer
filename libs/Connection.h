@@ -44,8 +44,15 @@ public:
     void Read();
     void Write();
 
-    void SetDeleteConnectionCallback(std::function<void(Socket *)>&& callback);
+    template<typename F>
+    void SetDeleteConnectionCallback(F&& callback) {
+        delete_connection_callback_for_server_ = callback;
+    };
+
+
     void SetOnReceiveCallback(const std::function<void(Connection *)>& callback);
+
+
     State GetState();
     void Close();
     void SetSendBuffer(const char *str);

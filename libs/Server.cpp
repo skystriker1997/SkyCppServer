@@ -17,8 +17,7 @@ Server::Server(EventLoop* main_eloop) : main_reactor_(main_eloop) {
     }
     unsigned long length = sub_reactors_.size();
     for(int i = 0; i < length; ++i) {        //one event-loop(sub-reactor) per thread
-        std::function<void()> sub_eloop = [sub_reactor = sub_reactors_[i]]()-> void {sub_reactor->Loop();};  // 'this' pointer of EventLoop
-        thread_pool_->AddTask(sub_eloop);
+        thread_pool_->AddTask([sub_reactor = sub_reactors_[i].get()]()-> void {sub_reactor->Loop();});
     }
 }
 
@@ -32,7 +31,7 @@ void Server::NewConnection(Socket* sock) {
         logger_.ERROR(message);
         return;
     }
-    // here should find the epoll that has the least fd mounted on it
+    // here should find the epoll that has the least fds mounted on it
     if(!sub_reactors_.empty()) {
         unsigned long index = 0;
         unsigned long minimal_fd = sub_reactors_[0]->GetFdCount();

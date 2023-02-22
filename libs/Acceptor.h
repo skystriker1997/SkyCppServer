@@ -26,7 +26,10 @@ public:
 
     void AcceptConnection();
 
-    void SetNewConnectionCallback(std::function<void(Socket *)>&& callback);
+    template<typename F>
+    void SetNewConnectionCallback(F&& callback) {
+        new_connection_callback_ = callback;
+    };
 };
 
 #endif //TINYWEBSERVER_ACCEPTOR_H

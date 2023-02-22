@@ -189,10 +189,6 @@ Buffer *Connection::GetReadBuffer() {
 }
 
 
-void Connection::SetDeleteConnectionCallback(std::function<void(Socket *)>&& callback) {
-    delete_connection_callback_for_server_ = callback;
-}
-
 void Connection::Business() {
     Read();
     on_receive_callback_(this);

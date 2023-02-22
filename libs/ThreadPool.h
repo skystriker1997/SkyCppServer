@@ -26,11 +26,23 @@ private:
 public:
     DISALLOW_COPY_AND_MOVE(ThreadPool);
 
-    ThreadPool(unsigned int size = std::thread::hardware_concurrency());
+    explicit ThreadPool(unsigned int size);
 
     ~ThreadPool();
 
-    bool AddTask(const std::function<void()>& func);
+    template<typename F>
+    bool AddTask(F&& func) {
+        if(!stop_) {
+            {
+                std::unique_lock<std::mutex> lock(tasks_mutex_);
+                tasks_.emplace(func);
+            }
+            condition_variable_.notify_one();
+            return true;
+        } else {
+            return false;
+        }
+    };
 };
 
 

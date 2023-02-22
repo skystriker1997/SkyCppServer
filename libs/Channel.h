@@ -37,8 +37,16 @@ public:
     void EnableWrite();
 
     void SetReadyEvents(uint32_t ev);
-    void SetReadCallback(std::function<void()>&& callback);
-    void SetWriteCallback(std::function<void()>&& callback);
+
+    template<typename F>
+    void SetReadCallback(F&& callback) {
+        read_callback_ = callback;
+    };
+
+    template<typename F>
+    void SetWriteCallback(F&& callback) {
+        write_callback_ = callback;
+    };
 
     void HandleEvent();
 
