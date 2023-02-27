@@ -38,10 +38,10 @@ void Channel::EnableRead() {
 }
 
 
-
 void Channel::EnableWrite() {
     listen_events_ |= EPOLLOUT;
 }
+
 
 void Channel::SetReadyEvents(uint32_t ev) {
     ready_events_ |= ev;

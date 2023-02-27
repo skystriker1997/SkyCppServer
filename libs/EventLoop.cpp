@@ -23,19 +23,17 @@ void EventLoop::Loop() {
     while(!quit_) {
         std::vector<Channel*> ready_channels = this->Poll(-1);
         std::for_each(std::begin(ready_channels), std::end(ready_channels), [](const auto& channel){channel->HandleEvent();});
-        // channels were assigned proper callback function from connection
     }
 }
 
 
-// the Poll method of Epoll class returns a vector of pointer to Channel object being ready to take action
 std::vector<Channel*> EventLoop::Poll(int timeout){
     std::vector<Channel*> active_channels;
     int nfds = epoll_wait(epfd_, events_.get(), max_events_, timeout);
     if(nfds == -1) {
         logger_.ERROR(strerror(errno));
     } else {
-        for (int i = 0; i < nfds; ++i) {    //nfds >= 1;
+        for (int i = 0; i < nfds; ++i) {
             Channel* channel = (Channel*) events_.get()[i].data.ptr;
             channel->SetReadyEvents(events_.get()[i].events);
             active_channels.push_back(channel);
@@ -48,6 +46,7 @@ std::vector<Channel*> EventLoop::Poll(int timeout){
 int EventLoop::GetEpfd() {
     return epfd_;
 }
+
 
 void EventLoop::UpdateChannel(Channel * channel) {
     int fd = channel->GetFd();
@@ -68,6 +67,7 @@ void EventLoop::UpdateChannel(Channel * channel) {
     }
 }
 
+
 void EventLoop::DeleteChannel(Channel * channel) {
     int fd = channel->GetFd();
     if(epoll_ctl(epfd_, EPOLL_CTL_DEL, fd, nullptr) == -1) {
@@ -77,6 +77,7 @@ void EventLoop::DeleteChannel(Channel * channel) {
         fd_count_ -= 1;
     }
 }
+
 
 unsigned long EventLoop::GetFdCount() {
     return fd_count_;

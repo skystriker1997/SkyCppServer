@@ -20,7 +20,7 @@ private:
     std::unique_ptr<Channel> accept_channel_;
     std::function<void(Socket *)> new_connection_callback_;
 public:
-    Acceptor(EventLoop* eloop);
+    explicit Acceptor(EventLoop* eloop);
 
     ~Acceptor();
 

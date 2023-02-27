@@ -7,7 +7,7 @@ Buffer::Buffer() {};
 
 Buffer::~Buffer() {};
 
-void Buffer::Append(const char* str, int size) {
+void Buffer::Append(const char* str, long size) {
     for(int i = 0; i < size; ++i) {
         if(str[i] == '\0')
             break;

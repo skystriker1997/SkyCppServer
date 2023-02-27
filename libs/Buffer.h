@@ -10,7 +10,7 @@ private:
 public:
     Buffer();
     ~Buffer();
-    void Append(const char* str, int size);
+    void Append(const char* str, long size);
     ssize_t Size();
     const char* ToCstr();
     void Clear();

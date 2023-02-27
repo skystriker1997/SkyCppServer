@@ -3,7 +3,8 @@
 
 
 Acceptor::Acceptor(EventLoop* eloop) : eloop_(eloop) {
-    sock_ = std::make_unique<Socket>();   //the socket of Acceptor had better to be set blocking
+    sock_ = std::make_unique<Socket>();
+    sock_->SetNonBlocking();
     auto addr = std::make_unique<InetAddress>("127.0.0.1", 1234);
     sock_->Bind(addr.get());
     sock_->Listen();
@@ -12,7 +13,7 @@ Acceptor::Acceptor(EventLoop* eloop) : eloop_(eloop) {
     accept_channel_->EnableRead();
 }
 
-Acceptor::~Acceptor() {}
+Acceptor::~Acceptor() = default;
 
 
 void Acceptor::AcceptConnection() {
