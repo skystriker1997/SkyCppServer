@@ -14,16 +14,15 @@
 class Connection {
 
 public:
-    enum State {Invalid, Handshaking, Connected, Closed, Failed};
+    enum State {Closed, Occupied, Free};
 private:
     EventLoop* eloop_;
-    Socket *sock_;
+    Socket* sock_;
     std::unique_ptr<Channel> channel_;
-    State state_{State::Invalid};
+    State state_;
     std::unique_ptr<Buffer> read_buffer_;
     std::unique_ptr<Buffer> send_buffer_;
-    std::function<void(Socket *)> delete_connection_callback_for_server_;
-
+    long send_buffer_data_left_;
     std::function<void(Connection *)> on_receive_callback_;
 
     Logger logger_;
@@ -44,29 +43,18 @@ public:
     void Read();
     void Write();
 
-    template<typename F>
-    void SetDeleteConnectionCallback(F&& callback) {
-        delete_connection_callback_for_server_ = callback;
-    };
+    void SetChannelWriteCallback();
 
+    void SetChannelReadCallback();
 
     void SetOnReceiveCallback(const std::function<void(Connection *)>& callback);
 
-
     State GetState();
-    void Close();
+    void RemoveFromEpoll();
     void SetSendBuffer(const char *str);
-    Buffer *GetReadBuffer();
-    const char *SeeReadBuffer();
-    Buffer *GetSendBuffer();
-    const char *SeeSendBuffer();
-    void SendBufferGetLine();
-    Socket *GetSocket();
-    void Business();
-
-
-
-
+    Buffer* GetReadBuffer();
+    Buffer* GetSendBuffer();
+    Socket* GetSocket();
 };
 
 #endif //TINYWEBSERVER_CONNECTION_H
