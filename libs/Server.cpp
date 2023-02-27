@@ -22,7 +22,7 @@ Server::Server(EventLoop* main_eloop) : main_reactor_(main_eloop) {
 }
 
 
-Server::~Server() {}
+Server::~Server() = default;
 
 
 void Server::NewConnection(Socket* sock) {
@@ -39,26 +39,23 @@ void Server::NewConnection(Socket* sock) {
             if(sub_reactors_[i]->GetFdCount() < minimal_fd)
                 index = i;
         }
-        auto connection = std::make_unique<Connection>(sub_reactors_[index].get(), sock);
-        connection->SetDeleteConnectionCallback([this](Socket* sock){this->DeleteConnection(sock);});  //tell new connections some necessary steps when close themselves
-        connection->SetOnReceiveCallback(on_receive_callback_);    //tell connections how to handle receiving messages
-        connections_[sock->GetFd()] = std::move(connection);
+        connections_.PushBack(sub_reactors_[index].get(), sock);
+        Connection* connection = connections_.GetBack();
+        connection->SetOnReceiveCallback(on_receive_callback_);    //tell connections how to handle received messages
+        if (connections_.GetLength() > 10000)
+            connections_.PopHead();
     } else {
         char message[] = "no epoll available for connection to mount on";
         logger_.ERROR(message);
     }
 }
 
-void Server::DeleteConnection(Socket *sock) {  // the server serves connections by maintaining a map of connections, being responsible for removing connections when it reaches end of life
-    int sockfd = sock->GetFd();
-    auto iterator = connections_.find(sockfd);   // the find method of std::map returns an iterator
-    if(iterator != connections_.end()) {
-        connections_.erase(sockfd);   //erase action could trigger deconstruction of that particular connection
-    }
+
+void Server::DeleteConnection(Socket *sock) {  // the server maintains a vector of connections, being responsible for removing connections when it reaches end of life
+    connections_.DeleteConnection(sock->GetFd());
 }
 
-void Server::SetOnReceiveCallback(const std::function<void(Connection*)>& callback) {on_receive_callback_ = callback;}
-// this callback function will finally be passed to and tell channel how to handle read event; epoll is the one that realizes whether messages have arrived, and channel needs to call connection's member functions(with 'this' pointer) to handle events
+
 
 
 
