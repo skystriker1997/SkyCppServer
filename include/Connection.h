@@ -7,8 +7,8 @@
 #include "Logger.h"
 
 
-#ifndef TINYWEBSERVER_CONNECTION_H
-#define TINYWEBSERVER_CONNECTION_H
+#ifndef SKYSERVER_CONNECTION_H
+#define SKYSERVER_CONNECTION_H
 
 
 class Connection {
@@ -57,4 +57,4 @@ public:
     Socket* GetSocket();
 };
 
-#endif //TINYWEBSERVER_CONNECTION_H
+#endif

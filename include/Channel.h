@@ -5,8 +5,8 @@
 #include <unistd.h>
 #include <memory>
 
-#ifndef TINYWEBSERVER_CHANNEL_H
-#define TINYWEBSERVER_CHANNEL_H
+#ifndef SKYSERVER_CHANNEL_H
+#define SKYSERVER_CHANNEL_H
 
 class EventLoop;
 
@@ -54,4 +54,4 @@ public:
 
 
 
-#endif //TINYWEBSERVER_CHANNEL_H
+#endif //SKYSERVER_CHANNEL_H

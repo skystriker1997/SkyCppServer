@@ -6,8 +6,8 @@
 #include <iostream>
 #include <memory>
 
-#ifndef TINYWEBSERVER_ACCEPTOR_H
-#define TINYWEBSERVER_ACCEPTOR_H
+#ifndef SKYSERVER_ACCEPTOR_H
+#define SKYSERVER_ACCEPTOR_H
 
 class EventLoop;
 class Socket;
@@ -32,4 +32,4 @@ public:
     };
 };
 
-#endif //TINYWEBSERVER_ACCEPTOR_H
+#endif //SKYSERVER_ACCEPTOR_H

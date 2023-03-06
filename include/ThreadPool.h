@@ -10,8 +10,8 @@
 #include <memory>
 
 
-#ifndef TINYWEBSERVER_THREADPOOL_H
-#define TINYWEBSERVER_THREADPOOL_H
+#ifndef SKYSERVER_THREADPOOL_H
+#define SKYSERVER_THREADPOOL_H
 
 
 class ThreadPool
@@ -46,4 +46,4 @@ public:
 };
 
 
-#endif //TINYWEBSERVER_THREADPOOL_H
+#endif

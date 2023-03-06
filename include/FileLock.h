@@ -5,8 +5,8 @@
 #include "Macros.h"
 
 
-#ifndef MYNETWORKLIB_FILELOCK_H
-#define MYNETWORKLIB_FILELOCK_H
+#ifndef SKYSERVER_FILELOCK_H
+#define SKYSERVER_FILELOCK_H
 
 
 class FileLock {
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif //MYNETWORKLIB_FILELOCK_H
+#endif //SKYSERVER_FILELOCK_H

@@ -13,8 +13,8 @@
 #include <memory>
 
 
-#ifndef TINYWEBSERVER_SOCKET_H
-#define TINYWEBSERVER_SOCKET_H
+#ifndef SKYSERVER_SOCKET_H
+#define SKYSERVER_SOCKET_H
 
 
 class Socket {

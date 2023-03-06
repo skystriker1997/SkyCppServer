@@ -1,8 +1,8 @@
 
 #include <string>
 
-#ifndef TINYWEBSERVER_BUFFER_H
-#define TINYWEBSERVER_BUFFER_H
+#ifndef SKYSERVER_BUFFER_H
+#define SKYSERVER_BUFFER_H
 
 class Buffer {
 private:
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //TINYWEBSERVER_BUFFER_H
+#endif //SKYSERVER_BUFFER_H

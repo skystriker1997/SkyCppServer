@@ -12,8 +12,8 @@
 #include <string.h>
 
 
-#ifndef MYNETWORKLIB_LOGGER_H
-#define MYNETWORKLIB_LOGGER_H
+#ifndef SKYSERVER_LOGGER_H
+#define SKYSERVER_LOGGER_H
 
 
 //  The strerror() function returns a pointer to an error message string that is associated with errno
@@ -58,4 +58,4 @@ public:
 };
 
 
-#endif //MYNETWORKLIB_LOGGER_H
+#endif

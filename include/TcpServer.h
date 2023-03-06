@@ -13,8 +13,8 @@
 #include <algorithm>
 
 
-#ifndef TINYWEBSERVER_SERVER_H
-#define TINYWEBSERVER_SERVER_H
+#ifndef SKYSERVER_SERVER_H
+#define SKYSERVER_SERVER_H
 
 
 
@@ -94,4 +94,4 @@ public:
 };
 
 
-#endif //TINYWEBSERVER_SERVER_H
+#endif
