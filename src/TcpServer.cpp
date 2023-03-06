@@ -1,5 +1,5 @@
 
-#include "Server.h"
+#include "TcpServer.h"
 
 
 // the Server builds up the main frame, including an acceptor receiving messages from clients, a thread pool undertaking that many epolls handling existing connections
@@ -34,9 +34,9 @@ void Server::NewConnection(Socket* sock) {
     // here should find the epoll that has the least fds mounted on it
     if(!sub_reactors_.empty()) {
         unsigned long index = 0;
-        unsigned long minimal_fd = sub_reactors_[0]->GetFdCount();
+        unsigned long minimal_fd = sub_reactors_[0]->FdCount();
         for(unsigned long i=0; i<sub_reactors_.size(); i++) {
-            if(sub_reactors_[i]->GetFdCount() < minimal_fd)
+            if(sub_reactors_[i]->FdCount() < minimal_fd)
                 index = i;
         }
         connections_.PushBack(sub_reactors_[index].get(), sock);

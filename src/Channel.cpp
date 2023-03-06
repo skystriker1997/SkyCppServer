@@ -40,6 +40,7 @@ void Channel::EnableRead() {
 
 void Channel::EnableWrite() {
     listen_events_ |= EPOLLOUT;
+    eloop_->UpdateChannel(this);
 }
 
 
