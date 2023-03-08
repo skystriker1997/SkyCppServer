@@ -1,199 +1,173 @@
-
 #include "Connection.h"
 
 
-Connection::Connection(EventLoop *eloop, Socket *sock) : eloop_(eloop), sock_(sock), already_closed_(false), send_buffer_data_left_(-1) {
+
+Connection::Connection(EventLoop *eloop, Socket *sock) : state_(Available), eloop_(eloop), sock_(sock), already_closed_(false) {
     channel_ = std::make_unique<Channel>(eloop_, sock->GetFd());
-    channel_->EnableRead();
-    channel_->EnableWrite();
-    SetChannelReadCallback();
-    SetChannelWriteCallback();
-    read_buffer_ = std::make_unique<Buffer>();
-    send_buffer_ = std::make_unique<Buffer>();
-    state_ = State::Free;
+    this->EnableChannelRead();
+    read_buffers_ = std::make_unique<std::queue<std::unique_ptr<Buffer>>>();
+    send_buffers_ = std::make_unique<std::queue<std::unique_ptr<Buffer>>>();
+    this->SetChannelReadCallback();
+    this->SetChannelWriteCallback();
+    read_buffers_->push(std::make_unique<Buffer>());
+    send_buffers_->push(std::make_unique<Buffer>());
 }
 
 
 Connection::~Connection() {
     if(!already_closed_) {
-        eloop_->DeleteChannel(channel_.get());  //remove the channel from corresponding epoll when gets the end of connection
+        eloop_->DeleteChannel(channel_.get());
+        //Note: remove the channel from corresponding epoll when gets the end of connection
         already_closed_ = true;
     }
 }
 
 
+
 void Connection::Read() {
-    if(state_ == State::Occupied) {
-        char info_occupied[] = "connection is now occupied!";
-        logger_.INFO(info_occupied);
-        return;
-    }
-    if(state_ == State::Closed) {
-        char error_disconnect[] = "connection is now closed!";
-        logger_.ERROR(error_disconnect);
-        return;
-    }
-    if (sock_->CheckNonBlocking()) {
+    if(state_ == State::Available)
         this->ReadNonBlocking();
-    } else {
-        this->ReadBlocking();
+
+    if(state_ == State::Closed) {
+        char message[] = "connection is now closed! Read is no longer accessible.";
+        logger_.ERROR(message);
+        return;
     }
 }
+
 
 
 void Connection::Write() {
-    if (sock_->CheckNonBlocking()) {
+    if(state_ == State::Available)
         this->WriteNonBlocking();
-    } else {
-        this->WriteBlocking();
+
+    if(state_ == State::Closed) {
+        char message[] = "connection is now closed! Write is no longer accessible.";
+        logger_.ERROR(message);
+        return;
     }
 }
 
 
+
 void Connection::ReadNonBlocking() {
-    state_ = State::Occupied;
     int sockfd = sock_->GetFd();
     char buf[1024];
+    // Note: try to read all readable data from socket whenever be called
     while (true) {
         memset(buf, 0, sizeof(buf));
         ssize_t bytes_read = read(sockfd, buf, sizeof(buf));
         if (bytes_read > 0) {
-            read_buffer_->Append(buf, bytes_read);     // append read_buffer with new read outcome
-        } else if (bytes_read == -1 && errno == EINTR) {  // A return value of EINTR means that the function was interrupted by a signal before the function could finish its normal job.
+            read_buffers_->back()->Append(buf, bytes_read);
+            // Note: append the newest buffer with new read outcome
+        } else if (bytes_read == -1 && errno == EINTR) {
+            // Note: A return value of EINTR means that the function was interrupted by a signal before the function could finish its normal job, so just continue to loop
             continue;
-        } else if (bytes_read == -1 && ((errno == EAGAIN) || (errno == EWOULDBLOCK))) {  // EAGAIN is often raised when performing non-blocking I/O. It means "there is no data available right now, try again later".
-            // It might (or might not) be the same as EWOULDBLOCK, which means "your thread would have to block in order to do that".
-            state_ = State::Free;
-            break;    // if really need to wait, get out of loop and wait for being called later
-        } else if (bytes_read == 0) {    //
-            on_receive_callback_(this);    // if reach EOF, call specific function to handle contents in read_buffer
+        } else if (bytes_read == -1 && ((errno == EAGAIN) || (errno == EWOULDBLOCK))) {
+            // Note: EAGAIN and EWOULDBLOCK both mean there is no data available right now, so need to leave it aside for a while
+            break;
+        } else if (bytes_read == 0) {
+            read_buffers_->push(std::make_unique<Buffer>());
+            // Note: When reaches EOF, push in a new read buffer.
             break;
         } else {
-            logger_.ERROR(strerror(errno));
-            read_buffer_->Clear();
-            state_ = State::Free;
+            char message[100];
+            sprintf(message, "failed to read from socket %d because of exception, error info: ", sockfd);
+            logger_.ERROR(std::strcat(message, strerror(errno)));
             break;
         }
     }
 }
 
-
-void Connection::ReadBlocking() {
-    state_ = State::Occupied;
-    int sockfd = sock_->GetFd();
-    unsigned int rcv_size = 0;
-    socklen_t len = sizeof(rcv_size);
-    // To manipulate options at the socket level, the level parameter must be set to SOL_SOCKET as defined in sys/socket.h
-    if(getsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &rcv_size, &len) == -1) {   // get the length of socket receive length
-        // For getsockopt(), optval and optlen are parameters used to identify a buffer in which the value for the requested option(s) are to be returned.
-        logger_.ERROR(strerror(errno));
-        state_ = State::Free;
-    } else {
-        char buf[rcv_size];
-        ssize_t bytes_read = read(sockfd, buf, sizeof(buf));
-        if (bytes_read > 0) {
-            read_buffer_->Append(buf, bytes_read);
-            state_ = State::Free;
-        } else if (bytes_read == 0) {
-            printf("read EOF\n");
-            on_receive_callback_(this);
-        } else if (bytes_read == -1) {
-            logger_.ERROR(strerror(errno));
-            state_ = State::Free;
-        }
-    }
-}
 
 
 void Connection::WriteNonBlocking() {
     int sockfd = sock_->GetFd();
-    char buf[send_buffer_->Size()];
-    memcpy(buf, send_buffer_->ToCstr(), send_buffer_->Size());   //memcpy copies n characters from memory area source to memory area destination
-    long data_size = send_buffer_->Size();
-    if(send_buffer_data_left_ == -1)
-        send_buffer_data_left_ = data_size;
-    while (send_buffer_data_left_ > 0) {
-        ssize_t bytes_write = write(sockfd, buf + data_size - send_buffer_data_left_, send_buffer_data_left_);   // each loop tries to send all remaining data
+    char buf[send_buffers_->front()->Size()];
+    unsigned long data_size = send_buffers_->front()->Size();
+    memcpy(buf, send_buffers_->front()->ToCstr(), data_size);
+    while (true) {
+        ssize_t bytes_write = write(sockfd, 0, data_size);
         if (bytes_write == -1 && errno == EINTR) {
-            printf("continue writing\n");
             continue;
         }
         if (bytes_write == -1 && errno == EAGAIN) {
-            return;    // if really need to wait because of the congestion in socket's buffer, just return and wait for being called later
-        }
-        if (bytes_write == -1) {
-            logger_.ERROR(strerror(errno));
             break;
         }
-        send_buffer_data_left_ -= bytes_write;   // update how many data remaining
+        if (bytes_write == -1) {
+            char message[100];
+            sprintf(message, "failed to write upon socket %d because of exception, error info: ", sockfd);
+            logger_.ERROR(std::strcat(message, strerror(errno)));
+            break;
+        }
+        send_buffers_->front()->Erase(bytes_write);
+        if(send_buffers_->front()->Size() == 0)
+            send_buffers_->pop();
+        // Note: Whenever read something, update the buffer, if no data remaining in front buffer, pop it from queue.
     }
-    read_buffer_->Clear();
-    send_buffer_->Clear();
-    state_ = State::Free;
-}
-
-
-void Connection::WriteBlocking() {
-    ssize_t snd_size = send_buffer_->Size();
-    int sockfd = sock_->GetFd();
-    if (setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &snd_size, (socklen_t) sizeof(snd_size)) == -1) {   // set socket send buffer to be as large as the content within the send buffer object
-        logger_.ERROR(strerror(errno));
-    } else {
-        ssize_t bytes_write = write(sockfd, send_buffer_->ToCstr(), snd_size);
-        if(bytes_write < snd_size) {   // error happened or have reached the end of stream
-            if(bytes_write == -1)
-                logger_.ERROR(strerror(errno));
-        } else
-            return;
-    }
-    read_buffer_->Clear();
-    send_buffer_->Clear();
-    state_ = State::Free;
 }
 
 
 
 void Connection::RemoveFromEpoll() {
     state_ = State::Closed;
-    eloop_->DeleteChannel(channel_.get());  //remove the channel from corresponding epoll when the connection is about to be closed
+    eloop_->DeleteChannel(channel_.get());
+    // Note: remove the channel from corresponding epoll when the connection is about to be closed
     already_closed_ = true;
 }
 
 
-Connection::State Connection::GetState() {
+
+Connection::State Connection::GetState() const {
     return state_;
 }
 
 
-void Connection::SetSendBuffer(const char* content) {
-    send_buffer_->SetBuf(content);
+
+
+std::queue<std::unique_ptr<Buffer>>* Connection::GetSendBuffers() {
+    return send_buffers_.get();
 }
 
 
 
-Buffer *Connection::GetSendBuffer() {
-    return send_buffer_.get();
+std::queue<std::unique_ptr<Buffer>>* Connection::GetReadBuffers() {
+    return read_buffers_.get();
 }
 
-
-Buffer *Connection::GetReadBuffer() {
-    return read_buffer_.get();
-}
 
 
 void Connection::SetChannelWriteCallback() {
     channel_->SetWriteCallback([this](){this->Write();});
 }
 
+
+
 void Connection::SetChannelReadCallback() {
     channel_->SetReadCallback([this](){this->Read();});
 }
+
+
 
 void Connection::SetOnReceiveCallback(const std::function<void(Connection *)>& callback) {
     on_receive_callback_ = callback;
 }
 
 
-Socket *Connection::GetSocket() {
+
+Socket* Connection::GetSocket() const {
     return sock_;
 }
+
+
+
+void Connection::EnableChannelWrite() {
+    channel_->EnableWrite();
+}
+
+
+
+void Connection::EnableChannelRead() {
+    channel_->EnableRead();
+}
+
