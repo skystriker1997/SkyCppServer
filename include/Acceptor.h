@@ -1,4 +1,3 @@
-
 #include <functional>
 #include "Socket.h"
 #include "InetAddress.h"
@@ -8,6 +7,7 @@
 
 #ifndef SKYSERVER_ACCEPTOR_H
 #define SKYSERVER_ACCEPTOR_H
+
 
 class EventLoop;
 class Socket;
@@ -19,6 +19,7 @@ private:
     std::unique_ptr<Socket> sock_;
     std::unique_ptr<Channel> accept_channel_;
     std::function<void(Socket *)> new_connection_callback_;
+
 public:
     explicit Acceptor(EventLoop* eloop);
 
@@ -32,4 +33,4 @@ public:
     };
 };
 
-#endif //SKYSERVER_ACCEPTOR_H
+#endif

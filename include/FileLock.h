@@ -1,9 +1,7 @@
-
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 #include "Macros.h"
-
 
 #ifndef SKYSERVER_FILELOCK_H
 #define SKYSERVER_FILELOCK_H
@@ -11,15 +9,16 @@
 
 class FileLock {
 private:
-    struct flock flck_;
+    struct flock flck_{};
     int fd_;
     int if_wait_;
+
 public:
     int ret_ = -1;
     DISALLOW_COPY_AND_MOVE(FileLock);
-    FileLock(int fd, int if_wait , int l_type, int l_whence, int l_offset, int l_len);
+    FileLock(int fd, int if_wait , short l_type, short l_whence, int l_offset, int l_len);
     ~FileLock();
 };
 
 
-#endif //SKYSERVER_FILELOCK_H
+#endif

@@ -1,4 +1,3 @@
-
 #include <map>
 #include <functional>
 #include <vector>
@@ -11,7 +10,6 @@
 #include "ThreadPool.h"
 #include "Logger.h"
 #include <algorithm>
-
 
 #ifndef SKYSERVER_SERVER_H
 #define SKYSERVER_SERVER_H
@@ -31,10 +29,10 @@ struct KV {
 class Connections {
 private:
     std::vector<std::unique_ptr<KV>> connections_;
+
 public:
     Connections() = default;
     ~Connections() = default;
-
     void PushBack(EventLoop* eloop, Socket* sock) {
         connections_.emplace_back(std::make_unique<KV>(eloop, sock));
     }
@@ -66,9 +64,7 @@ public:
 
 
 
-
-class Server
-{
+class Server {
 private:
     EventLoop* main_reactor_;
     std::unique_ptr<Acceptor> acceptor_;
@@ -85,12 +81,10 @@ public:
     void NewConnection(Socket* sock);
     void DeleteConnection(Socket* sock);
 
-    // this callback function will be passed to and tell connection what to do when messages are already read; epoll is the one that realizes whether messages have arrived, and channel needs to call connection's member functions indirectly (with 'this' pointer) to handle events
     template<typename F>
     void SetOnReceiveCallback(F&& callback) {
         on_receive_callback_ = callback;
     };
-
 };
 
 

@@ -5,17 +5,15 @@
 Socket::Socket() {
     fd_ = socket(AF_INET, SOCK_STREAM, 0);
     if (fd_ == -1) {
-        logger_.ERROR(strerror(errno));
+        char message[] = "failed to create socket, error info: ";
+        logger_.ERROR(std::strcat(message, strerror(errno)));
     }
 }
 
 
-Socket::Socket(int fd) : fd_(fd) {
-    if (fd_ == -1) {
-        char message[] = "the file descriptor cannot be -1, error happened when socket tried to accept";
-        logger_.ERROR(message);
-    }
-}
+
+Socket::Socket(int fd) : fd_(fd) {}
+
 
 
 Socket::~Socket(){
@@ -24,6 +22,8 @@ Socket::~Socket(){
         fd_ = -1;
     }
 }
+
+
 
 void Socket::SetNonBlocking() {
     if(fcntl(fd_, F_SETFL, fcntl(fd_, F_GETFL) | O_NONBLOCK) == -1) {
@@ -38,12 +38,15 @@ bool Socket::CheckNonBlocking() const {
 }
 
 
+
 void Socket::Bind(InetAddress* addr){
     struct sockaddr_in temp_addr = addr->GetAddr();
     if (bind(fd_, (sockaddr*) &temp_addr, sizeof(temp_addr)) == -1) {
         logger_.ERROR(strerror(errno));
     };
 }
+
+
 
 void Socket::Listen(){
     if (listen(fd_, SOMAXCONN) == -1) {
@@ -52,12 +55,14 @@ void Socket::Listen(){
 }
 
 
+
 int Socket::Accept(InetAddress* addr) {
     struct sockaddr_in temp_addr {};
     socklen_t addr_len = sizeof(temp_addr);
     int clnt_sockfd = accept(fd_, (sockaddr*) &temp_addr, &addr_len);
     if(clnt_sockfd == -1) {
-        logger_.ERROR(strerror(errno));
+        char message[] = "an exception happened when the server socket tried to accept a client, error info: ";
+        logger_.ERROR(std::strcat(message, strerror(errno)));
     } else {
         addr->SetAddr(temp_addr);
     }
@@ -66,6 +71,6 @@ int Socket::Accept(InetAddress* addr) {
 
 
 
-int Socket::GetFd(){
+int Socket::GetFd() const{
     return fd_;
 }

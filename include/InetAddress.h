@@ -2,8 +2,6 @@
 #include "Macros.h"
 #include <cstring>
 
-
-
 #ifndef SKYSERVER_INETADDRESS_H
 #define SKYSERVER_INETADDRESS_H
 
@@ -11,6 +9,7 @@
 class InetAddress {
 private:
     struct sockaddr_in addr_ {};
+
 public:
     DISALLOW_COPY_AND_MOVE(InetAddress);
     InetAddress() = default;

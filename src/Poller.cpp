@@ -34,7 +34,7 @@ std::vector<Channel*> Poller::Poll(int timeout){
 }
 
 
-int Poller::GetEpfd() {
+int Poller::GetEpfd() const {
     return epfd_;
 }
 
@@ -70,7 +70,7 @@ void Poller::DeleteChannel(Channel * channel) {
 }
 
 
-unsigned long Poller::FdCount() {
+unsigned long Poller::FdCount() const {
     return fd_count_;
 }
 

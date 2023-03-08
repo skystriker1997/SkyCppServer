@@ -20,11 +20,11 @@ public:
     DISALLOW_COPY_AND_MOVE(Poller);
     Poller();
     ~Poller();
-    int GetEpfd();
+    int GetEpfd() const;
     void UpdateChannel(Channel* channel);
     void DeleteChannel(Channel* channel);
     std::vector<Channel*> Poll(int timeout);
-    unsigned long FdCount();
+    unsigned long FdCount() const;
 };
 
 #endif
