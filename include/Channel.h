@@ -1,4 +1,3 @@
-
 #include <sys/epoll.h>
 #include <functional>
 #include "Macros.h"
@@ -8,7 +7,9 @@
 #ifndef SKYSERVER_CHANNEL_H
 #define SKYSERVER_CHANNEL_H
 
+
 class EventLoop;
+
 
 class Channel {
 private:
@@ -20,17 +21,15 @@ private:
     std::function<void()> read_callback_;
     std::function<void()> write_callback_;
 
-
-
 public:
     DISALLOW_COPY_AND_MOVE(Channel);
     Channel(EventLoop* eloop, int fd);
     ~Channel();
 
-    int GetFd();
-    uint32_t GetListenEvents();
-    uint32_t GetReadyEvents();
-    bool CheckInEpoll();
+    int GetFd() const;
+    uint32_t GetListenEvents() const;
+    uint32_t GetReadyEvents() const;
+    bool CheckInEpoll() const;
     void SetInEpoll(bool in);
 
     void EnableRead();
@@ -54,4 +53,4 @@ public:
 
 
 
-#endif //SKYSERVER_CHANNEL_H
+#endif
