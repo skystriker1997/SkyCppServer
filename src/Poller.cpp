@@ -25,7 +25,7 @@ std::vector<Channel*> Poller::Poll(int timeout){
         logger_.ERROR(strerror(errno));
     } else {
         for (int i = 0; i < nfds; ++i) {
-            Channel* channel = (Channel*) events_.get()[i].data.ptr;
+            auto* channel = (Channel*) events_.get()[i].data.ptr;
             channel->SetReadyEvents(events_.get()[i].events);
             active_channels.push_back(channel);
         }
@@ -49,6 +49,7 @@ void Poller::UpdateChannel(Channel * channel) {
         if(epoll_ctl(epfd_, EPOLL_CTL_ADD, fd, &ev) == -1) {
             logger_.ERROR(strerror(errno));
         } else {
+            channel->SetInEpoll(true);
             fd_count_ += 1;
         }
     } else {
