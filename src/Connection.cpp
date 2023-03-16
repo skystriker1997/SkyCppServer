@@ -2,25 +2,17 @@
 
 
 
-Connection::Connection(EventLoop *eloop, Socket *sock) : state_(Available), eloop_(eloop), sock_(sock), already_closed_(false) {
-    channel_ = std::make_unique<Channel>(eloop_, sock->GetFd());
+Connection::Connection(EventLoop *eloop, std::unique_ptr<Socket> sock) : state_(Available), eloop_(eloop), sock_(std::move(sock)) {
+    channel_ = std::make_unique<Channel>(eloop_, sock_->GetFd());
     this->EnableChannelRead();
-    read_buffers_ = std::make_unique<std::queue<std::unique_ptr<Buffer>>>();
-    send_buffers_ = std::make_unique<std::queue<std::unique_ptr<Buffer>>>();
+    read_buffer_ = std::make_unique<Buffer>();
+    write_buffer_ = std::make_unique<Buffer>();
     this->SetChannelReadCallback();
     this->SetChannelWriteCallback();
-    read_buffers_->push(std::make_unique<Buffer>());
-    send_buffers_->push(std::make_unique<Buffer>());
 }
 
 
-Connection::~Connection() {
-    if(!already_closed_) {
-        eloop_->DeleteChannel(channel_.get());
-        //Note: remove the channel from corresponding epoll when gets the end of connection
-        already_closed_ = true;
-    }
-}
+Connection::~Connection() = default;
 
 
 
@@ -52,14 +44,19 @@ void Connection::Write() {
 
 void Connection::ReadNonBlocking() {
     int sockfd = sock_->GetFd();
-    char buf[1024];
+    char buf[8196];
+    bool do_business = false;
     // Note: try to read all readable data from socket whenever be called
     while (true) {
         memset(buf, 0, sizeof(buf));
         ssize_t bytes_read = read(sockfd, buf, sizeof(buf));
-        if (bytes_read > 0) {
-            read_buffers_->back()->Append(buf, bytes_read);
-            // Note: append the newest buffer with new read outcome
+        if (bytes_read == 8196) {
+            read_buffer_->Append(buf, bytes_read);
+            continue;
+        } else if (bytes_read > 0 && bytes_read < 8196) {
+            read_buffer_->Append(buf, bytes_read);
+            do_business = true;
+            break;
         } else if (bytes_read == -1 && errno == EINTR) {
             // Note: A return value of EINTR means that the function was interrupted by a signal before the function could finish its normal job, so just continue to loop
             continue;
@@ -67,15 +64,19 @@ void Connection::ReadNonBlocking() {
             // Note: EAGAIN and EWOULDBLOCK both mean there is no data available right now, so need to leave it aside for a while
             break;
         } else if (bytes_read == 0) {
-            read_buffers_->push(std::make_unique<Buffer>());
-            // Note: When reaches EOF, push in a new read buffer.
-            break;
+            state_ = State::Closed;
         } else {
             char message[100];
             sprintf(message, "failed to read from socket %d because of exception, error info: ", sockfd);
             logger_.ERROR(std::strcat(message, strerror(errno)));
+            state_ = State::Closed;
             break;
         }
+    }
+    if(do_business) {
+        on_receive_callback_(this);
+    } else if(state_ == State::Closed) {
+        DeleteSelf(sock_.get());
     }
 }
 
@@ -83,56 +84,65 @@ void Connection::ReadNonBlocking() {
 
 void Connection::WriteNonBlocking() {
     int sockfd = sock_->GetFd();
-    char buf[send_buffers_->front()->Size()];
-    unsigned long data_size = send_buffers_->front()->Size();
-    memcpy(buf, send_buffers_->front()->ToCstr(), data_size);
+    unsigned long data_size = write_buffer_->Size();
+    auto temp_buff = std::make_unique<char[]>(data_size);
+    memcpy(temp_buff.get(), write_buffer_->ToCstr(), data_size);
     while (true) {
-        ssize_t bytes_write = write(sockfd, 0, data_size);
-        if (bytes_write == -1 && errno == EINTR) {
-            continue;
-        }
-        if (bytes_write == -1 && errno == EAGAIN) {
-            break;
-        }
+        ssize_t bytes_write = write(sockfd, temp_buff.get(), data_size);
         if (bytes_write == -1) {
-            char message[100];
-            sprintf(message, "failed to write upon socket %d because of exception, error info: ", sockfd);
-            logger_.ERROR(std::strcat(message, strerror(errno)));
-            break;
+            if(errno == EAGAIN) {
+                break;
+            }
+            int error_code;
+            socklen_t error_code_size = sizeof(error_code);
+            getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error_code, &error_code_size);
+            if(error_code == ENOTCONN) {
+                // Note: Client has terminated connection
+                state_ = State::Closed;
+                break;
+            } else if (errno == EINTR) {
+                continue;
+            } else {
+                char message[100];
+                sprintf(message, "failed to write upon socket %d because of unexpected surprise, error info: ", sockfd);
+                logger_.ERROR(std::strcat(message, strerror(errno)));
+                state_ = State::Closed;
+                break;
+            }
+        } else {
+            write_buffer_->Erase(bytes_write);
+            if(write_buffer_->Size() == 0) {
+                state_ = State::Closed;
+                //this->EnableChannelRead();
+                // Note: disable write of channel when no data remaining in send buffer, otherwise epoll would always report once the socket write buffer gets free space
+                //break;
+            }
         }
-        send_buffers_->front()->Erase(bytes_write);
-        if(send_buffers_->front()->Size() == 0)
-            send_buffers_->pop();
-        // Note: Whenever read something, update the buffer, if no data remaining in front buffer, pop it from queue.
+    }
+    if(state_ == State::Closed) {
+        DeleteSelf(sock_.get());
     }
 }
 
 
 
-void Connection::RemoveFromEpoll() {
-    state_ = State::Closed;
+
+void Connection::DeleteSelf(Socket* sock) {
     eloop_->DeleteChannel(channel_.get());
+    delete_self_on_server_callback_(sock);
     // Note: remove the channel from corresponding epoll when the connection is about to be closed
-    already_closed_ = true;
 }
 
 
 
-Connection::State Connection::GetState() const {
-    return state_;
+Buffer* Connection::GetSendBuffer() {
+    return write_buffer_.get();
 }
 
 
 
-
-std::queue<std::unique_ptr<Buffer>>* Connection::GetSendBuffers() {
-    return send_buffers_.get();
-}
-
-
-
-std::queue<std::unique_ptr<Buffer>>* Connection::GetReadBuffers() {
-    return read_buffers_.get();
+Buffer* Connection::GetReadBuffer() {
+    return read_buffer_.get();
 }
 
 
@@ -156,7 +166,7 @@ void Connection::SetOnReceiveCallback(const std::function<void(Connection *)>& c
 
 
 Socket* Connection::GetSocket() const {
-    return sock_;
+    return sock_.get();
 }
 
 

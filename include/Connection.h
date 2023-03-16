@@ -17,21 +17,21 @@ public:
     enum State {Available, Closed};
 private:
     EventLoop* eloop_;
-    Socket* sock_;
+    std::unique_ptr<Socket> sock_;
     std::unique_ptr<Channel> channel_;
     State state_;
-    std::unique_ptr<std::queue<std::unique_ptr<Buffer>>> read_buffers_;
-    std::unique_ptr<std::queue<std::unique_ptr<Buffer>>> send_buffers_;
-    std::function<void(Connection *)> on_receive_callback_;
+    std::unique_ptr<Buffer> read_buffer_;
+    std::unique_ptr<Buffer> write_buffer_;
+    std::function<void(Connection*)> on_receive_callback_;
+    std::function<void(Socket*)> delete_self_on_server_callback_;
     Logger logger_;
-    bool already_closed_;
 
     void ReadNonBlocking();
     void WriteNonBlocking();
 
 public:
     DISALLOW_COPY_AND_MOVE(Connection);
-    Connection(EventLoop* eloop, Socket *sock);
+    Connection(EventLoop* eloop, std::unique_ptr<Socket> sock);
     ~Connection();
 
     void Read();
@@ -43,12 +43,16 @@ public:
 
     void SetOnReceiveCallback(const std::function<void(Connection *)>& callback);
 
-    void RemoveFromEpoll();
+    template<typename F>
+    void SetDeleteSelfOnServerCallback(F&& callback) {
+        delete_self_on_server_callback_ = callback;
+    };
 
-    State GetState() const;
+    void DeleteSelf(Socket* sock);
 
-    std::queue<std::unique_ptr<Buffer>>* GetReadBuffers();
-    std::queue<std::unique_ptr<Buffer>>* GetSendBuffers();
+
+    Buffer* GetReadBuffer();
+    Buffer* GetSendBuffer();
 
     void EnableChannelWrite();
     void EnableChannelRead();
