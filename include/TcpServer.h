@@ -19,8 +19,8 @@
 struct KV {
     int sock_fd_;
     std::unique_ptr<Connection> connection_;
-    KV(EventLoop* eloop, Socket* sock): sock_fd_(sock->GetFd()) {
-        connection_ = std::make_unique<Connection>(eloop, sock);
+    KV(EventLoop* eloop, std::unique_ptr<Socket> sock): sock_fd_(sock->GetFd()) {
+        connection_ = std::make_unique<Connection>(eloop, std::move(sock));
     }
 };
 
@@ -33,14 +33,13 @@ private:
 public:
     Connections() = default;
     ~Connections() = default;
-    void PushBack(EventLoop* eloop, Socket* sock) {
-        connections_.emplace_back(std::make_unique<KV>(eloop, sock));
+    void PushBack(EventLoop* eloop, std::unique_ptr<Socket> sock) {
+        connections_.emplace_back(std::make_unique<KV>(eloop, std::move(sock)));
     }
 
     void DeleteConnection(int sock_fd) {
         for(auto iter = connections_.begin(); iter < connections_.end(); iter++) {
             if((*iter)->sock_fd_ == sock_fd) {
-                (*iter)->connection_->RemoveFromEpoll();
                 connections_.erase(iter);
                 break;
             }
@@ -64,9 +63,10 @@ public:
 
 
 
-class Server {
+class TcpServer {
 private:
-    EventLoop* main_reactor_;
+    uint16_t port_;
+    std::unique_ptr<EventLoop> main_reactor_;
     std::unique_ptr<Acceptor> acceptor_;
     Connections connections_;
     std::vector<std::unique_ptr<EventLoop>> sub_reactors_;
@@ -75,11 +75,13 @@ private:
     Logger logger_;
 
 public:
-    DISALLOW_COPY_AND_MOVE(Server)
-    explicit Server(EventLoop* main_eloop);
-    ~Server();
-    void NewConnection(Socket* sock);
+    DISALLOW_COPY_AND_MOVE(TcpServer)
+    explicit TcpServer(uint16_t port);
+    ~TcpServer();
+    void NewConnection(std::unique_ptr<Socket> sock);
     void DeleteConnection(Socket* sock);
+
+    void Start();
 
     template<typename F>
     void SetOnReceiveCallback(F&& callback) {

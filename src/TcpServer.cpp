@@ -3,9 +3,10 @@
 
 
 // Note: the Server builds up the main frame, including an acceptor receiving messages from clients, a thread pool undertaking that many epolls handling existing connections
-Server::Server(EventLoop* main_eloop) : main_reactor_(main_eloop) {
-    acceptor_ = std::make_unique<Acceptor>(main_reactor_);
-    acceptor_->SetNewConnectionCallback([this](Socket* sock){this->NewConnection(sock);});
+TcpServer::TcpServer(uint16_t port) : port_(port) {
+    main_reactor_ = std::make_unique<EventLoop>();
+    acceptor_ = std::make_unique<Acceptor>(main_reactor_.get(), port_);
+    acceptor_->SetNewConnectionCallback([this](std::unique_ptr<Socket> sock){this->NewConnection(std::move(sock));});
     unsigned int size = std::thread::hardware_concurrency();
     thread_pool_ = std::make_unique<ThreadPool>(size);
     for(int i = 0; i < size; ++i) {
@@ -22,11 +23,17 @@ Server::Server(EventLoop* main_eloop) : main_reactor_(main_eloop) {
 
 
 
-Server::~Server() = default;
+TcpServer::~TcpServer() = default;
 
 
 
-void Server::NewConnection(Socket* sock) {
+void TcpServer::Start() {
+    main_reactor_->Loop();
+}
+
+
+
+void TcpServer::NewConnection(std::unique_ptr<Socket> sock) {
     if(sock->GetFd() == -1) {
         char message[] = "a socket with fd -1 is not eligible to create Connection object";
         logger_.ERROR(message);
@@ -40,12 +47,11 @@ void Server::NewConnection(Socket* sock) {
             if(sub_reactors_[i]->FdCount() < minimal_fd)
                 index = i;
         }
-        connections_.PushBack(sub_reactors_[index].get(), sock);
+        connections_.PushBack(sub_reactors_[index].get(), std::move(sock));
         Connection* connection = connections_.GetBack();
         connection->SetOnReceiveCallback(on_receive_callback_);
+        connection->SetDeleteSelfOnServerCallback([this](Socket* sock){this->DeleteConnection(sock);});
         // Note: tell connections how to handle received data
-        if (connections_.GetLength() > 10000)
-            connections_.PopHead();
     } else {
         char message[] = "no epoll is now available for connection to mount on";
         logger_.ERROR(message);
@@ -55,9 +61,11 @@ void Server::NewConnection(Socket* sock) {
 
 
 // Note: the server maintains a vector of connections, being responsible for removing connections when it reaches end of life
-void Server::DeleteConnection(Socket *sock) {
+void TcpServer::DeleteConnection(Socket *sock) {
     connections_.DeleteConnection(sock->GetFd());
 }
+
+
 
 
 
