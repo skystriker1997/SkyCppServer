@@ -12,7 +12,7 @@ Connection::Connection(EventLoop *eloop, std::unique_ptr<Socket> sock) : state_(
 }
 
 
-Connection::~Connection() = default;
+Connection::~Connection() = default;;
 
 
 

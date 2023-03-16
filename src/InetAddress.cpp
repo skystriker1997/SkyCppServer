@@ -3,7 +3,8 @@
 
 
 InetAddress::InetAddress(const char* ip, uint16_t port) {
-    memset(addr_.get(), 0, sizeof(*addr_));
+    //memset(addr_.get(), 0, sizeof(*addr_));
+    addr_ = std::make_unique<sockaddr_in>();
     addr_->sin_family = AF_INET;
     addr_->sin_addr.s_addr = inet_addr(ip);
     addr_->sin_port = htons(port);
@@ -11,7 +12,7 @@ InetAddress::InetAddress(const char* ip, uint16_t port) {
 
 
 
-InetAddress::InetAddress() = default;
+InetAddress::InetAddress() : addr_(std::make_unique<sockaddr_in>()) {};
 
 
 

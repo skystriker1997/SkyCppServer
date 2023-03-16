@@ -2,6 +2,7 @@
 #include <memory>
 #include "Macros.h"
 #include "Poller.h"
+#include <cstdio>
 
 
 #ifndef SKYSERVER_EVENTLOOP_H

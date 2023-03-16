@@ -8,6 +8,7 @@
 #include "Macros.h"
 #include <algorithm>
 #include <memory>
+#include <cstdio>
 
 
 #ifndef SKYSERVER_THREADPOOL_H

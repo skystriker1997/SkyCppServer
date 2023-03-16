@@ -8,11 +8,14 @@ EventLoop::EventLoop() : quit_(false) {
 
 
 
-EventLoop::~EventLoop() = default;
+EventLoop::~EventLoop() {
+    this->Quit();
+};
 
 
 
 void EventLoop::Loop() {
+    printf("my thread starts the infinite poll!\n");
     while(!this->CheckQuit()) {
         std::vector<Channel*> ready_channels = poller_->Poll(-1);
         std::for_each(std::begin(ready_channels), std::end(ready_channels), [](const auto& channel){channel->HandleEvent();});

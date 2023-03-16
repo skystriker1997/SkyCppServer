@@ -3,7 +3,8 @@
 
 
 Acceptor::Acceptor(EventLoop* eloop, uint16_t port) : eloop_(eloop) {
-    auto addr = std::make_unique<InetAddress>("127.0.0.1", port);
+    char ip[] = "127.0.0.1";
+    auto addr = std::make_unique<InetAddress>(ip, port);
     sock_ = std::make_unique<Socket>(std::move(addr));
     sock_->SetNonBlocking();
     sock_->Bind();
@@ -25,7 +26,9 @@ void Acceptor::AcceptConnection() {
     auto clnt_sock = std::make_unique<Socket>();
     sock_->Accept(clnt_sock->GetAddr());
     // Note: as the accept method is called after being ready to read, execution flow won't be blocked
-    // printf("new client fd: %d, with IP at: %d, with port at: %d\n", clnt_sock->GetFd(), inet_ntoa(clnt_addr->GetAddr().sin_addr), ntohs(clnt_addr->GetAddr().sin_port);
+    char new_client_info[100];
+    sprintf(new_client_info, "new client fd: %d, with IP at: %s, with port at: %d\n", clnt_sock->GetFd(), inet_ntoa(clnt_sock->GetAddr()->GetAddr()->sin_addr), ntohs(clnt_sock->GetAddr()->GetAddr()->sin_port));
+    logger_.DEBUG(new_client_info);
     clnt_sock->SetNonBlocking();
     new_connection_callback_(std::move(clnt_sock));
 }

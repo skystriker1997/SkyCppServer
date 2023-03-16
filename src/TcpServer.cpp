@@ -16,8 +16,10 @@ TcpServer::TcpServer(uint16_t port) : port_(port) {
         }
     }
     unsigned long length = sub_reactors_.size();
+    printf("%lu epoll have been created as sub reactor!\n", length);
     for(int i = 0; i < length; ++i) {        // Note: one event-loop(sub-reactor) per thread
         thread_pool_->AddTask([sub_reactor = sub_reactors_[i].get()]()-> void {sub_reactor->Loop();});
+        printf("one sub-reactor has been added to thread pool!\n");
     }
 }
 

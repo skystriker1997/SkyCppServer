@@ -10,6 +10,8 @@
 #include "ThreadPool.h"
 #include "Logger.h"
 #include <algorithm>
+#include <cstdio>
+
 
 #ifndef SKYSERVER_SERVER_H
 #define SKYSERVER_SERVER_H

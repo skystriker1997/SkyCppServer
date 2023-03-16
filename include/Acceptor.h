@@ -4,6 +4,8 @@
 #include "Channel.h"
 #include <iostream>
 #include <memory>
+#include "Logger.h"
+#include <cstdio>
 
 #ifndef SKYSERVER_ACCEPTOR_H
 #define SKYSERVER_ACCEPTOR_H
@@ -19,6 +21,7 @@ private:
     std::unique_ptr<Socket> sock_;
     std::unique_ptr<Channel> accept_channel_;
     std::function<void(std::unique_ptr<Socket>)> new_connection_callback_;
+    Logger logger_;
 
 public:
     Acceptor(EventLoop* eloop, uint16_t port);

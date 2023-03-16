@@ -19,6 +19,7 @@ ThreadPool::ThreadPool(unsigned int size) : stop_(false) {
             }
         });
     }
+    printf("%u threads have been created to serve!\n", size);
 }
 
 

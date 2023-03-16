@@ -16,16 +16,6 @@
 
 
 
-std::string CurrentDateTime() {
-    time_t now = time(nullptr);
-    tm tmstruct = *localtime(&now);
-    char buf[80];
-    if(strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tmstruct) == 0)
-        perror("failed to format datetime: ");
-    return buf;
-}
-
-
 class Logger{
 public:
     enum log_level{debug, info, warning, error};
@@ -40,6 +30,7 @@ private:
 
 public:
     Logger();
+    static std::string CurrentDateTime();
     void DEBUG(const char* text);
     void INFO(const char* text);
     void WARNING(const char* text);

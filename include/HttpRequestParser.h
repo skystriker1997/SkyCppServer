@@ -17,13 +17,13 @@ private:
     std::string request_body_;
 
 public:
-    HttpRequestParser(const char* request);
+    explicit HttpRequestParser(const char* request);
 
     ~HttpRequestParser();
 
     void Parse();
 
-    bool CheckProblematic();
+    bool CheckProblematic() const;
 
     const std::string& GetMethod();
     const std::string& GetURI();

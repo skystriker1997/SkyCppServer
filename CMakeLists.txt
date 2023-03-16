@@ -1,7 +1,10 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.16)
+
 project(skycppserver)
 
 set(CMAKE_CXX_STANDARD 14)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 add_executable(HttpServer
         application/HttpServer.cpp)
@@ -112,6 +115,10 @@ add_library(ThreadPool
 
 target_include_directories(ThreadPool
         PRIVATE include/)
+
+target_link_libraries(ThreadPool
+        PRIVATE pthread
+        )
 
 add_library(Poller
         src/Poller.cpp)
