@@ -1,3 +1,5 @@
+/home/parallels/IT/skycppserver/cmake-build-debug/CMakeFiles/HttpServer.dir
+/home/parallels/IT/skycppserver/cmake-build-debug/CMakeFiles/HttpRequestParser.dir
 /home/parallels/IT/skycppserver/cmake-build-debug/CMakeFiles/Acceptor.dir
 /home/parallels/IT/skycppserver/cmake-build-debug/CMakeFiles/Buffer.dir
 /home/parallels/IT/skycppserver/cmake-build-debug/CMakeFiles/Connection.dir

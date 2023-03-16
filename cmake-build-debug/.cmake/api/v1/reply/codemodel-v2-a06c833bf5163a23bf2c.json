@@ -26,7 +26,9 @@
 						8,
 						9,
 						10,
-						11
+						11,
+						12,
+						13
 					]
 				}
 			],
@@ -52,7 +54,9 @@
 						8,
 						9,
 						10,
-						11
+						11,
+						12,
+						13
 					]
 				}
 			],
@@ -61,84 +65,98 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Acceptor::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Acceptor-Debug-99c5b32620ab9f224913.json",
+					"jsonFile" : "target-Acceptor-Debug-b71048d0256c963d51ba.json",
 					"name" : "Acceptor",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Buffer::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Buffer-Debug-b0386d52878aadeddee0.json",
+					"jsonFile" : "target-Buffer-Debug-cecc1260049267c988ec.json",
 					"name" : "Buffer",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Channel::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Channel-Debug-ce49f5b83498872783e0.json",
+					"jsonFile" : "target-Channel-Debug-77a95bdc6473ee3ae0c9.json",
 					"name" : "Channel",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Connection::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Connection-Debug-c70b042d8c6731e38edd.json",
+					"jsonFile" : "target-Connection-Debug-333835428aad636e60c3.json",
 					"name" : "Connection",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "EventLoop::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-EventLoop-Debug-0e0807d5e15df50b94bf.json",
+					"jsonFile" : "target-EventLoop-Debug-d029cd04cc29a8fc4389.json",
 					"name" : "EventLoop",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "FileLock::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-FileLock-Debug-89ca92c262309c70218e.json",
+					"jsonFile" : "target-FileLock-Debug-2b0c998ad166f7bef537.json",
 					"name" : "FileLock",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "HttpRequestParser::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-HttpRequestParser-Debug-a9555e3fbc2487a5c310.json",
+					"name" : "HttpRequestParser",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "HttpServer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-HttpServer-Debug-259a38d06a32c4c361ae.json",
+					"name" : "HttpServer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "InetAddress::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-InetAddress-Debug-5501d8412ccf8dcf3f90.json",
+					"jsonFile" : "target-InetAddress-Debug-1b03ea4c36cdbf3daeae.json",
 					"name" : "InetAddress",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Logger::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Logger-Debug-74d329ed1e7d46e72220.json",
+					"jsonFile" : "target-Logger-Debug-5f8694e8ff3b3c93219b.json",
 					"name" : "Logger",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Poller::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Poller-Debug-f555d6423247fea5b868.json",
+					"jsonFile" : "target-Poller-Debug-de7992aff3b7237505ea.json",
 					"name" : "Poller",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Socket::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Socket-Debug-ea6e550e5eaaacd654fc.json",
+					"jsonFile" : "target-Socket-Debug-ab44075b472fac3b25d6.json",
 					"name" : "Socket",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "TcpServer::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TcpServer-Debug-c8796a8beb55235ed573.json",
+					"jsonFile" : "target-TcpServer-Debug-398ac7bf2cfbb7495ea7.json",
 					"name" : "TcpServer",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "ThreadPool::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ThreadPool-Debug-ab0d87de1a0b314fb549.json",
+					"jsonFile" : "target-ThreadPool-Debug-24cf66ee3b735b3d2225.json",
 					"name" : "ThreadPool",
 					"projectIndex" : 0
 				}

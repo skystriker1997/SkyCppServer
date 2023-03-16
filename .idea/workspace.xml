@@ -11,18 +11,20 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="skycppserver" targetName="Connection" />
-      <config projectName="skycppserver" targetName="FileLock" />
+      <config projectName="skycppserver" targetName="HttpServer" />
       <config projectName="skycppserver" targetName="Poller" />
       <config projectName="skycppserver" targetName="TcpServer" />
       <config projectName="skycppserver" targetName="ThreadPool" />
+      <config projectName="skycppserver" targetName="HttpRequestParser" />
       <config projectName="skycppserver" targetName="Buffer" />
-      <config projectName="skycppserver" targetName="EventLoop" />
       <config projectName="skycppserver" targetName="Channel" />
-      <config projectName="skycppserver" targetName="Acceptor" />
       <config projectName="skycppserver" targetName="InetAddress" />
-      <config projectName="skycppserver" targetName="Logger" />
       <config projectName="skycppserver" targetName="Socket" />
+      <config projectName="skycppserver" targetName="Connection" />
+      <config projectName="skycppserver" targetName="FileLock" />
+      <config projectName="skycppserver" targetName="EventLoop" />
+      <config projectName="skycppserver" targetName="Acceptor" />
+      <config projectName="skycppserver" targetName="Logger" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -32,15 +34,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc968715-8960-439f-8ecd-9d106198e855" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Buffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Buffer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Poller.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Poller.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Buffer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Buffer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Channel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Channel.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HttpServer.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Poller.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Poller.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/HttpServer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/application/HttpServer.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +89,11 @@
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.Acceptor">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Acceptor" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="skycppserver" TARGET_NAME="Acceptor" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -119,6 +120,16 @@
       </method>
     </configuration>
     <configuration name="FileLock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="skycppserver" TARGET_NAME="FileLock" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HttpRequestParser" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="skycppserver" TARGET_NAME="HttpRequestParser" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HttpServer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="skycppserver" TARGET_NAME="HttpServer" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="skycppserver" RUN_TARGET_NAME="HttpServer">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -160,6 +171,8 @@
       <item itemvalue="CMake Application.Connection" />
       <item itemvalue="CMake Application.EventLoop" />
       <item itemvalue="CMake Application.FileLock" />
+      <item itemvalue="CMake Application.HttpRequestParser" />
+      <item itemvalue="CMake Application.HttpServer" />
       <item itemvalue="CMake Application.InetAddress" />
       <item itemvalue="CMake Application.Logger" />
       <item itemvalue="CMake Application.Poller" />
@@ -185,7 +198,7 @@
       <workItem from="1677490108358" duration="5000" />
       <workItem from="1678082972737" duration="44834000" />
       <workItem from="1678283423333" duration="4709000" />
-      <workItem from="1678324968769" duration="101524000" />
+      <workItem from="1678324968769" duration="104062000" />
     </task>
     <servers />
   </component>

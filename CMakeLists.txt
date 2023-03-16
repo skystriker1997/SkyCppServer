@@ -10,13 +10,13 @@ target_include_directories(HttpServer
         PRIVATE include/)
 
 target_link_libraries(HttpServer
-        PRIVATE libA libC
+        PRIVATE Connection TcpServer HttpRequestParser
         )
 
 add_library(HttpRequestParser
         src/HttpRequestParser.cpp)
 
-target_include_directories(HttpRequest
+target_include_directories(HttpRequestParser
         PRIVATE include/)
 
 add_library(Acceptor
@@ -24,6 +24,10 @@ add_library(Acceptor
 
 target_include_directories(Acceptor
         PRIVATE include/)
+
+target_link_libraries(Acceptor
+        PRIVATE Channel InetAddress Socket
+        )
 
 add_library(Buffer
         src/Buffer.cpp)
@@ -37,17 +41,29 @@ add_library(Connection
 target_include_directories(Connection
         PRIVATE include/)
 
+target_link_libraries(Connection
+        PRIVATE EventLoop Socket Buffer Logger
+        )
+
 add_library(Channel
         src/Channel.cpp)
 
 target_include_directories(Channel
         PRIVATE include/)
 
+target_link_libraries(Channel
+        PRIVATE EventLoop
+        )
+
 add_library(EventLoop
         src/EventLoop.cpp)
 
 target_include_directories(EventLoop
         PRIVATE include/)
+
+target_link_libraries(EventLoop
+        PRIVATE Poller Logger
+        )
 
 add_library(FileLock
         src/FileLock.cpp)
@@ -67,17 +83,29 @@ add_library(Logger
 target_include_directories(Logger
         PRIVATE include/)
 
+target_link_libraries(Logger
+        PRIVATE FileLock
+        )
+
 add_library(TcpServer
         src/TcpServer.cpp)
 
 target_include_directories(TcpServer
         PRIVATE include/)
 
+target_link_libraries(TcpServer
+        PRIVATE Socket Acceptor Connection EventLoop ThreadPool Logger
+        )
+
 add_library(Socket
         src/Socket.cpp)
 
 target_include_directories(Socket
         PRIVATE include/)
+
+target_link_libraries(Socket
+        PRIVATE Logger InetAddress
+        )
 
 add_library(ThreadPool
         src/ThreadPool.cpp)
@@ -90,6 +118,10 @@ add_library(Poller
 
 target_include_directories(Poller
         PRIVATE include/)
+
+target_link_libraries(Poller
+        PRIVATE Channel Logger
+        )
 
 
 

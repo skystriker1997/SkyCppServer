@@ -6,6 +6,7 @@
 #include "HttpRequestParser.h"
 #include <vector>
 #include <regex>
+#include "Connection.h"
 
 
 

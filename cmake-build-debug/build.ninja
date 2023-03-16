@@ -41,13 +41,78 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /home/parallels/IT/skycppserver/cmake-build-debug/
 # =============================================================================
+# Object build statements for EXECUTABLE target HttpServer
+
+
+#############################################
+# Order-only phony target for HttpServer
+
+build cmake_object_order_depends_target_HttpServer: phony || cmake_object_order_depends_target_Acceptor cmake_object_order_depends_target_Buffer cmake_object_order_depends_target_Channel cmake_object_order_depends_target_Connection cmake_object_order_depends_target_FileLock cmake_object_order_depends_target_HttpRequestParser cmake_object_order_depends_target_InetAddress cmake_object_order_depends_target_Logger cmake_object_order_depends_target_Socket cmake_object_order_depends_target_TcpServer cmake_object_order_depends_target_ThreadPool
+
+build CMakeFiles/HttpServer.dir/application/HttpServer.cpp.o: CXX_COMPILER__HttpServer_Debug /home/parallels/IT/skycppserver/application/HttpServer.cpp || cmake_object_order_depends_target_HttpServer
+  DEP_FILE = CMakeFiles/HttpServer.dir/application/HttpServer.cpp.o.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -I/home/parallels/IT/skycppserver/include
+  OBJECT_DIR = CMakeFiles/HttpServer.dir
+  OBJECT_FILE_DIR = CMakeFiles/HttpServer.dir/application
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target HttpServer
+
+
+#############################################
+# Link the executable HttpServer
+
+build HttpServer: CXX_EXECUTABLE_LINKER__HttpServer_Debug CMakeFiles/HttpServer.dir/application/HttpServer.cpp.o | libConnection.a libTcpServer.a libHttpRequestParser.a libConnection.a libBuffer.a libAcceptor.a libSocket.a libInetAddress.a libEventLoop.a libPoller.a libChannel.a libEventLoop.a libPoller.a libChannel.a libLogger.a libFileLock.a libThreadPool.a || libAcceptor.a libBuffer.a libChannel.a libConnection.a libFileLock.a libHttpRequestParser.a libInetAddress.a libLogger.a libSocket.a libTcpServer.a libThreadPool.a
+  FLAGS = -g
+  LINK_LIBRARIES = libConnection.a  libTcpServer.a  libHttpRequestParser.a  libConnection.a  libBuffer.a  libAcceptor.a  libSocket.a  libInetAddress.a  libEventLoop.a  libPoller.a  libChannel.a  libEventLoop.a  libPoller.a  libChannel.a  libLogger.a  libFileLock.a  libThreadPool.a
+  OBJECT_DIR = CMakeFiles/HttpServer.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = HttpServer
+  TARGET_PDB = HttpServer.dbg
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target HttpRequestParser
+
+
+#############################################
+# Order-only phony target for HttpRequestParser
+
+build cmake_object_order_depends_target_HttpRequestParser: phony || CMakeFiles/HttpRequestParser.dir
+
+build CMakeFiles/HttpRequestParser.dir/src/HttpRequestParser.cpp.o: CXX_COMPILER__HttpRequestParser_Debug /home/parallels/IT/skycppserver/src/HttpRequestParser.cpp || cmake_object_order_depends_target_HttpRequestParser
+  DEP_FILE = CMakeFiles/HttpRequestParser.dir/src/HttpRequestParser.cpp.o.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -I/home/parallels/IT/skycppserver/include
+  OBJECT_DIR = CMakeFiles/HttpRequestParser.dir
+  OBJECT_FILE_DIR = CMakeFiles/HttpRequestParser.dir/src
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target HttpRequestParser
+
+
+#############################################
+# Link the static library libHttpRequestParser.a
+
+build libHttpRequestParser.a: CXX_STATIC_LIBRARY_LINKER__HttpRequestParser_Debug CMakeFiles/HttpRequestParser.dir/src/HttpRequestParser.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles/HttpRequestParser.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = libHttpRequestParser.a
+  TARGET_PDB = HttpRequestParser.a.dbg
+
+# =============================================================================
 # Object build statements for STATIC_LIBRARY target Acceptor
 
 
 #############################################
 # Order-only phony target for Acceptor
 
-build cmake_object_order_depends_target_Acceptor: phony || CMakeFiles/Acceptor.dir
+build cmake_object_order_depends_target_Acceptor: phony || cmake_object_order_depends_target_Channel cmake_object_order_depends_target_FileLock cmake_object_order_depends_target_InetAddress cmake_object_order_depends_target_Logger cmake_object_order_depends_target_Socket
 
 build CMakeFiles/Acceptor.dir/src/Acceptor.cpp.o: CXX_COMPILER__Acceptor_Debug /home/parallels/IT/skycppserver/src/Acceptor.cpp || cmake_object_order_depends_target_Acceptor
   DEP_FILE = CMakeFiles/Acceptor.dir/src/Acceptor.cpp.o.d
@@ -64,7 +129,7 @@ build CMakeFiles/Acceptor.dir/src/Acceptor.cpp.o: CXX_COMPILER__Acceptor_Debug /
 #############################################
 # Link the static library libAcceptor.a
 
-build libAcceptor.a: CXX_STATIC_LIBRARY_LINKER__Acceptor_Debug CMakeFiles/Acceptor.dir/src/Acceptor.cpp.o
+build libAcceptor.a: CXX_STATIC_LIBRARY_LINKER__Acceptor_Debug CMakeFiles/Acceptor.dir/src/Acceptor.cpp.o || libChannel.a libFileLock.a libInetAddress.a libLogger.a libSocket.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/Acceptor.dir
   POST_BUILD = :
@@ -111,7 +176,7 @@ build libBuffer.a: CXX_STATIC_LIBRARY_LINKER__Buffer_Debug CMakeFiles/Buffer.dir
 #############################################
 # Order-only phony target for Connection
 
-build cmake_object_order_depends_target_Connection: phony || CMakeFiles/Connection.dir
+build cmake_object_order_depends_target_Connection: phony || cmake_object_order_depends_target_Buffer cmake_object_order_depends_target_Channel cmake_object_order_depends_target_FileLock cmake_object_order_depends_target_InetAddress cmake_object_order_depends_target_Logger cmake_object_order_depends_target_Socket
 
 build CMakeFiles/Connection.dir/src/Connection.cpp.o: CXX_COMPILER__Connection_Debug /home/parallels/IT/skycppserver/src/Connection.cpp || cmake_object_order_depends_target_Connection
   DEP_FILE = CMakeFiles/Connection.dir/src/Connection.cpp.o.d
@@ -128,7 +193,7 @@ build CMakeFiles/Connection.dir/src/Connection.cpp.o: CXX_COMPILER__Connection_D
 #############################################
 # Link the static library libConnection.a
 
-build libConnection.a: CXX_STATIC_LIBRARY_LINKER__Connection_Debug CMakeFiles/Connection.dir/src/Connection.cpp.o
+build libConnection.a: CXX_STATIC_LIBRARY_LINKER__Connection_Debug CMakeFiles/Connection.dir/src/Connection.cpp.o || libBuffer.a libChannel.a libFileLock.a libInetAddress.a libLogger.a libSocket.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/Connection.dir
   POST_BUILD = :
@@ -143,7 +208,7 @@ build libConnection.a: CXX_STATIC_LIBRARY_LINKER__Connection_Debug CMakeFiles/Co
 #############################################
 # Order-only phony target for Channel
 
-build cmake_object_order_depends_target_Channel: phony || CMakeFiles/Channel.dir
+build cmake_object_order_depends_target_Channel: phony || cmake_object_order_depends_target_EventLoop
 
 build CMakeFiles/Channel.dir/src/Channel.cpp.o: CXX_COMPILER__Channel_Debug /home/parallels/IT/skycppserver/src/Channel.cpp || cmake_object_order_depends_target_Channel
   DEP_FILE = CMakeFiles/Channel.dir/src/Channel.cpp.o.d
@@ -160,7 +225,7 @@ build CMakeFiles/Channel.dir/src/Channel.cpp.o: CXX_COMPILER__Channel_Debug /hom
 #############################################
 # Link the static library libChannel.a
 
-build libChannel.a: CXX_STATIC_LIBRARY_LINKER__Channel_Debug CMakeFiles/Channel.dir/src/Channel.cpp.o
+build libChannel.a: CXX_STATIC_LIBRARY_LINKER__Channel_Debug CMakeFiles/Channel.dir/src/Channel.cpp.o || libEventLoop.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/Channel.dir
   POST_BUILD = :
@@ -175,7 +240,7 @@ build libChannel.a: CXX_STATIC_LIBRARY_LINKER__Channel_Debug CMakeFiles/Channel.
 #############################################
 # Order-only phony target for EventLoop
 
-build cmake_object_order_depends_target_EventLoop: phony || CMakeFiles/EventLoop.dir
+build cmake_object_order_depends_target_EventLoop: phony || cmake_object_order_depends_target_Poller
 
 build CMakeFiles/EventLoop.dir/src/EventLoop.cpp.o: CXX_COMPILER__EventLoop_Debug /home/parallels/IT/skycppserver/src/EventLoop.cpp || cmake_object_order_depends_target_EventLoop
   DEP_FILE = CMakeFiles/EventLoop.dir/src/EventLoop.cpp.o.d
@@ -192,7 +257,7 @@ build CMakeFiles/EventLoop.dir/src/EventLoop.cpp.o: CXX_COMPILER__EventLoop_Debu
 #############################################
 # Link the static library libEventLoop.a
 
-build libEventLoop.a: CXX_STATIC_LIBRARY_LINKER__EventLoop_Debug CMakeFiles/EventLoop.dir/src/EventLoop.cpp.o
+build libEventLoop.a: CXX_STATIC_LIBRARY_LINKER__EventLoop_Debug CMakeFiles/EventLoop.dir/src/EventLoop.cpp.o || libPoller.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/EventLoop.dir
   POST_BUILD = :
@@ -271,7 +336,7 @@ build libInetAddress.a: CXX_STATIC_LIBRARY_LINKER__InetAddress_Debug CMakeFiles/
 #############################################
 # Order-only phony target for Logger
 
-build cmake_object_order_depends_target_Logger: phony || CMakeFiles/Logger.dir
+build cmake_object_order_depends_target_Logger: phony || cmake_object_order_depends_target_FileLock
 
 build CMakeFiles/Logger.dir/src/Logger.cpp.o: CXX_COMPILER__Logger_Debug /home/parallels/IT/skycppserver/src/Logger.cpp || cmake_object_order_depends_target_Logger
   DEP_FILE = CMakeFiles/Logger.dir/src/Logger.cpp.o.d
@@ -288,7 +353,7 @@ build CMakeFiles/Logger.dir/src/Logger.cpp.o: CXX_COMPILER__Logger_Debug /home/p
 #############################################
 # Link the static library libLogger.a
 
-build libLogger.a: CXX_STATIC_LIBRARY_LINKER__Logger_Debug CMakeFiles/Logger.dir/src/Logger.cpp.o
+build libLogger.a: CXX_STATIC_LIBRARY_LINKER__Logger_Debug CMakeFiles/Logger.dir/src/Logger.cpp.o || libFileLock.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/Logger.dir
   POST_BUILD = :
@@ -303,7 +368,7 @@ build libLogger.a: CXX_STATIC_LIBRARY_LINKER__Logger_Debug CMakeFiles/Logger.dir
 #############################################
 # Order-only phony target for TcpServer
 
-build cmake_object_order_depends_target_TcpServer: phony || CMakeFiles/TcpServer.dir
+build cmake_object_order_depends_target_TcpServer: phony || cmake_object_order_depends_target_Acceptor cmake_object_order_depends_target_Buffer cmake_object_order_depends_target_Channel cmake_object_order_depends_target_Connection cmake_object_order_depends_target_FileLock cmake_object_order_depends_target_InetAddress cmake_object_order_depends_target_Logger cmake_object_order_depends_target_Socket cmake_object_order_depends_target_ThreadPool
 
 build CMakeFiles/TcpServer.dir/src/TcpServer.cpp.o: CXX_COMPILER__TcpServer_Debug /home/parallels/IT/skycppserver/src/TcpServer.cpp || cmake_object_order_depends_target_TcpServer
   DEP_FILE = CMakeFiles/TcpServer.dir/src/TcpServer.cpp.o.d
@@ -320,7 +385,7 @@ build CMakeFiles/TcpServer.dir/src/TcpServer.cpp.o: CXX_COMPILER__TcpServer_Debu
 #############################################
 # Link the static library libTcpServer.a
 
-build libTcpServer.a: CXX_STATIC_LIBRARY_LINKER__TcpServer_Debug CMakeFiles/TcpServer.dir/src/TcpServer.cpp.o
+build libTcpServer.a: CXX_STATIC_LIBRARY_LINKER__TcpServer_Debug CMakeFiles/TcpServer.dir/src/TcpServer.cpp.o || libAcceptor.a libBuffer.a libChannel.a libConnection.a libFileLock.a libInetAddress.a libLogger.a libSocket.a libThreadPool.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/TcpServer.dir
   POST_BUILD = :
@@ -335,7 +400,7 @@ build libTcpServer.a: CXX_STATIC_LIBRARY_LINKER__TcpServer_Debug CMakeFiles/TcpS
 #############################################
 # Order-only phony target for Socket
 
-build cmake_object_order_depends_target_Socket: phony || CMakeFiles/Socket.dir
+build cmake_object_order_depends_target_Socket: phony || cmake_object_order_depends_target_FileLock cmake_object_order_depends_target_InetAddress cmake_object_order_depends_target_Logger
 
 build CMakeFiles/Socket.dir/src/Socket.cpp.o: CXX_COMPILER__Socket_Debug /home/parallels/IT/skycppserver/src/Socket.cpp || cmake_object_order_depends_target_Socket
   DEP_FILE = CMakeFiles/Socket.dir/src/Socket.cpp.o.d
@@ -352,7 +417,7 @@ build CMakeFiles/Socket.dir/src/Socket.cpp.o: CXX_COMPILER__Socket_Debug /home/p
 #############################################
 # Link the static library libSocket.a
 
-build libSocket.a: CXX_STATIC_LIBRARY_LINKER__Socket_Debug CMakeFiles/Socket.dir/src/Socket.cpp.o
+build libSocket.a: CXX_STATIC_LIBRARY_LINKER__Socket_Debug CMakeFiles/Socket.dir/src/Socket.cpp.o || libFileLock.a libInetAddress.a libLogger.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/Socket.dir
   POST_BUILD = :
@@ -399,7 +464,7 @@ build libThreadPool.a: CXX_STATIC_LIBRARY_LINKER__ThreadPool_Debug CMakeFiles/Th
 #############################################
 # Order-only phony target for Poller
 
-build cmake_object_order_depends_target_Poller: phony || CMakeFiles/Poller.dir
+build cmake_object_order_depends_target_Poller: phony || cmake_object_order_depends_target_FileLock cmake_object_order_depends_target_Logger
 
 build CMakeFiles/Poller.dir/src/Poller.cpp.o: CXX_COMPILER__Poller_Debug /home/parallels/IT/skycppserver/src/Poller.cpp || cmake_object_order_depends_target_Poller
   DEP_FILE = CMakeFiles/Poller.dir/src/Poller.cpp.o.d
@@ -416,7 +481,7 @@ build CMakeFiles/Poller.dir/src/Poller.cpp.o: CXX_COMPILER__Poller_Debug /home/p
 #############################################
 # Link the static library libPoller.a
 
-build libPoller.a: CXX_STATIC_LIBRARY_LINKER__Poller_Debug CMakeFiles/Poller.dir/src/Poller.cpp.o
+build libPoller.a: CXX_STATIC_LIBRARY_LINKER__Poller_Debug CMakeFiles/Poller.dir/src/Poller.cpp.o || libFileLock.a libLogger.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/Poller.dir
   POST_BUILD = :
@@ -462,6 +527,8 @@ build EventLoop: phony libEventLoop.a
 
 build FileLock: phony libFileLock.a
 
+build HttpRequestParser: phony libHttpRequestParser.a
+
 build InetAddress: phony libInetAddress.a
 
 build Logger: phony libLogger.a
@@ -482,7 +549,7 @@ build ThreadPool: phony libThreadPool.a
 #############################################
 # Folder: /home/parallels/IT/skycppserver/cmake-build-debug
 
-build all: phony libAcceptor.a libBuffer.a libConnection.a libChannel.a libEventLoop.a libFileLock.a libInetAddress.a libLogger.a libTcpServer.a libSocket.a libThreadPool.a libPoller.a
+build all: phony HttpServer libHttpRequestParser.a libAcceptor.a libBuffer.a libConnection.a libChannel.a libEventLoop.a libFileLock.a libInetAddress.a libLogger.a libTcpServer.a libSocket.a libThreadPool.a libPoller.a
 
 # =============================================================================
 # Built-in targets

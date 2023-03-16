@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "libInetAddress.a"
+			"path" : "libPoller.a"
 		}
 	],
 	"backtrace" : 1,
@@ -12,6 +12,7 @@
 		"commands" : 
 		[
 			"add_library",
+			"target_link_libraries",
 			"target_include_directories"
 		],
 		"files" : 
@@ -26,13 +27,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 42,
+				"line" : 116,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 45,
+				"line" : 122,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 119,
 				"parent" : 0
 			}
 		]
@@ -49,7 +56,7 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"path" : "/home/parallels/IT/skycppserver/include"
 				}
 			],
@@ -68,9 +75,20 @@
 			]
 		}
 	],
-	"id" : "InetAddress::@6890427a1f51a3e7e1df",
-	"name" : "InetAddress",
-	"nameOnDisk" : "libInetAddress.a",
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "FileLock::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Logger::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "Poller::@6890427a1f51a3e7e1df",
+	"name" : "Poller",
+	"nameOnDisk" : "libPoller.a",
 	"paths" : 
 	{
 		"build" : ".",
@@ -91,7 +109,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/InetAddress.cpp",
+			"path" : "src/Poller.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
