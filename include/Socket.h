@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <sys/socket.h>
 #include "Logger.h"
+#include <memory>
 
 
 #ifndef SKYSERVER_SOCKET_H
@@ -14,20 +15,22 @@
 
 class Socket {
 private:
-    int fd_;
+    int fd_{};
     Logger logger_;
+    std::unique_ptr<InetAddress> addr_;
 
 public:
     DISALLOW_COPY_AND_MOVE(Socket);
+    explicit Socket(std::unique_ptr<InetAddress> addr);
     Socket();
-    explicit Socket(int fd);
     ~Socket();
     int GetFd() const;
     void SetNonBlocking();
-    void Bind(InetAddress* addr);
+    void Bind();
     void Listen();
     bool CheckNonBlocking() const;
     int Accept(InetAddress* addr);
+    InetAddress* GetAddr();
 };
 
 

@@ -15,13 +15,13 @@ class Channel;
 
 class Acceptor {
 private:
-    EventLoop *eloop_;
+    EventLoop* eloop_;
     std::unique_ptr<Socket> sock_;
     std::unique_ptr<Channel> accept_channel_;
-    std::function<void(Socket *)> new_connection_callback_;
+    std::function<void(std::unique_ptr<Socket>)> new_connection_callback_;
 
 public:
-    explicit Acceptor(EventLoop* eloop);
+    Acceptor(EventLoop* eloop, uint16_t port);
 
     ~Acceptor();
 

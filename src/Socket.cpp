@@ -2,7 +2,7 @@
 
 
 
-Socket::Socket() {
+Socket::Socket(std::unique_ptr<InetAddress> addr) : addr_(std::move(addr)) {
     fd_ = socket(AF_INET, SOCK_STREAM, 0);
     if (fd_ == -1) {
         char message[] = "failed to create socket, error info: ";
@@ -12,7 +12,9 @@ Socket::Socket() {
 
 
 
-Socket::Socket(int fd) : fd_(fd) {}
+Socket::Socket() {
+    addr_ = std::make_unique<InetAddress>();
+}
 
 
 
@@ -39,9 +41,8 @@ bool Socket::CheckNonBlocking() const {
 
 
 
-void Socket::Bind(InetAddress* addr){
-    struct sockaddr_in temp_addr = addr->GetAddr();
-    if (bind(fd_, (sockaddr*) &temp_addr, sizeof(temp_addr)) == -1) {
+void Socket::Bind(){
+    if (bind(fd_, (sockaddr*) addr_->GetAddr(), sizeof(*addr_->GetAddr())) == -1) {
         logger_.ERROR(strerror(errno));
     };
 }
@@ -57,14 +58,11 @@ void Socket::Listen(){
 
 
 int Socket::Accept(InetAddress* addr) {
-    struct sockaddr_in temp_addr {};
-    socklen_t addr_len = sizeof(temp_addr);
-    int clnt_sockfd = accept(fd_, (sockaddr*) &temp_addr, &addr_len);
+    socklen_t addr_len = sizeof(*addr->GetAddr());
+    int clnt_sockfd = accept(fd_, (sockaddr*) addr->GetAddr(), &addr_len);
     if(clnt_sockfd == -1) {
         char message[] = "an exception happened when the server socket tried to accept a client, error info: ";
         logger_.ERROR(std::strcat(message, strerror(errno)));
-    } else {
-        addr->SetAddr(temp_addr);
     }
     return clnt_sockfd;
 }
@@ -73,4 +71,9 @@ int Socket::Accept(InetAddress* addr) {
 
 int Socket::GetFd() const{
     return fd_;
+}
+
+
+InetAddress* Socket::GetAddr() {
+    return addr_.get();
 }
