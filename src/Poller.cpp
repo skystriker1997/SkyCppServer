@@ -47,7 +47,8 @@ void Poller::UpdateChannel(Channel * channel) {
     ev.events = channel->GetListenEvents();
     if(!channel->CheckInEpoll()) {
         if(epoll_ctl(epfd_, EPOLL_CTL_ADD, fd, &ev) == -1) {
-            logger_.ERROR(strerror(errno));
+            char message[] = "the epoll has reached the maximum limit on the number of file descriptors it can monitor, error info: ";
+            logger_.ERROR(std::strcat(message, strerror(errno)));
         } else {
             channel->SetInEpoll(true);
             fd_count_ += 1;

@@ -1,4 +1,5 @@
 #include <string>
+#include <memory>
 
 #ifndef SKYSERVER_BUFFER_H
 #define SKYSERVER_BUFFER_H
@@ -6,7 +7,7 @@
 
 class Buffer {
 private:
-    std::string buf_;
+    std::string buffer_;
 
 public:
     Buffer();
@@ -16,9 +17,8 @@ public:
     unsigned long Size();
     const char* ToCstr();
     void Clear();
-    void GetLine();
-    void SetBuf(const char* content);
-    void Erase(unsigned long npos);
+    void SetBuf(std::string&& temp_buf);
+    void Erase(unsigned long nrm);
 };
 
 

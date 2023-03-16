@@ -1,0 +1,159 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "skycppserver",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Acceptor::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Acceptor-Debug-99c5b32620ab9f224913.json",
+					"name" : "Acceptor",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Buffer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Buffer-Debug-b0386d52878aadeddee0.json",
+					"name" : "Buffer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Channel::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Channel-Debug-ce49f5b83498872783e0.json",
+					"name" : "Channel",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Connection::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Connection-Debug-c70b042d8c6731e38edd.json",
+					"name" : "Connection",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "EventLoop::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-EventLoop-Debug-0e0807d5e15df50b94bf.json",
+					"name" : "EventLoop",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "FileLock::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-FileLock-Debug-89ca92c262309c70218e.json",
+					"name" : "FileLock",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "InetAddress::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-InetAddress-Debug-5501d8412ccf8dcf3f90.json",
+					"name" : "InetAddress",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Logger::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Logger-Debug-74d329ed1e7d46e72220.json",
+					"name" : "Logger",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Poller::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Poller-Debug-f555d6423247fea5b868.json",
+					"name" : "Poller",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Socket::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Socket-Debug-ea6e550e5eaaacd654fc.json",
+					"name" : "Socket",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TcpServer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TcpServer-Debug-c8796a8beb55235ed573.json",
+					"name" : "TcpServer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ThreadPool::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ThreadPool-Debug-ab0d87de1a0b314fb549.json",
+					"name" : "ThreadPool",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/parallels/IT/skycppserver/cmake-build-debug",
+		"source" : "/home/parallels/IT/skycppserver"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

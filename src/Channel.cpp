@@ -40,7 +40,7 @@ bool Channel::CheckInEpoll() const {
 
 
 
-void Channel::SetInEpoll(bool in = true) {
+void Channel::SetInEpoll(bool in) {
     in_epoll_ = in;
 }
 

@@ -16,6 +16,7 @@ private:
     Logger logger_;
     unsigned long fd_count_;
     const int max_events_ = 4096;
+
 public:
     DISALLOW_COPY_AND_MOVE(Poller);
     Poller();

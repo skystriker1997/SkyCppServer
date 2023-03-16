@@ -2,44 +2,49 @@
 
 
 
-Buffer::Buffer() = default;;
+Buffer::Buffer() = default;
 
 Buffer::~Buffer() = default;;
 
 
 
-void Buffer::Append(const char* buf, long size) {
-    buf_.append(buf, size);
+void Buffer::Append(const char* buffer, long size) {
+    buffer_.append(buffer, size);
 }
 
 
 
 unsigned long  Buffer::Size() {
-    return buf_.size();
+    return buffer_.size();
 }
 
 
 
 const char* Buffer::ToCstr() {
-    return buf_.c_str();
+    return buffer_.c_str();
+    // Note: the character array is stored in heap memory and its lifespan is managed by std::string object buf_
 }
 
 
 
 void Buffer::Clear() {
-    buf_.clear();
+    buffer_.clear();
 }
 
 
 
-void Buffer::SetBuf(const char* content) {
-    buf_.clear();
-    buf_.append(content);
+void Buffer::SetBuf(std::string&& temp_buf) {
+    buffer_ = temp_buf;
 }
 
 
 
-void Buffer::Erase(unsigned long npos) {
-    buf_.erase(buf_.size()-npos, npos);
+void Buffer::Erase(unsigned long nrm) {
+    buffer_.erase(0, nrm);
 }
+
+
+
+
+
 
