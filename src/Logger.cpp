@@ -20,14 +20,14 @@ std::string Logger::CurrentDateTime() {
 void Logger::Output(const char* text, log_level actual_level) {
     std::string prefix;
     switch(actual_level) {
-        case debug: prefix = "[DEBUG]   "; break;
-        case info: prefix = "[INFO]    "; break;
-        case warning: prefix = "[WARNING]    "; break;
-        case error: prefix = "[ERROR]   ";
+        case debug: prefix = "[DEBUG] "; break;
+        case info: prefix = "[INFO] "; break;
+        case warning: prefix = "[WARNING] "; break;
+        case error: prefix = "[ERROR] ";
     }
     std::string output_content = prefix + CurrentDateTime() + " : " + text + "\n";
     if(level_ <= actual_level && target_ != file) {
-        std::cout << output_content << std::endl;            //Note: std::cout is thraed safe
+        printf("%s", output_content.c_str());
     }
     if(target_ != terminal) {
         {

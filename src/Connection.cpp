@@ -130,7 +130,6 @@ void Connection::WriteNonBlocking() {
 void Connection::DeleteSelf(Socket* sock) {
     eloop_->DeleteChannel(channel_.get());
     delete_self_on_server_callback_(sock);
-    // Note: remove the channel from corresponding epoll when the connection is about to be closed
 }
 
 

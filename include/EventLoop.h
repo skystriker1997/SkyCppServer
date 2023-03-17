@@ -3,6 +3,10 @@
 #include "Macros.h"
 #include "Poller.h"
 #include <cstdio>
+#include <thread>
+#include <string>
+#include <sstream>
+#include "Logger.h"
 
 
 #ifndef SKYSERVER_EVENTLOOP_H

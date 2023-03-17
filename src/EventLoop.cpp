@@ -15,7 +15,12 @@ EventLoop::~EventLoop() {
 
 
 void EventLoop::Loop() {
-    printf("my thread starts the infinite poll!\n");
+    std::thread::id thread_id = std::this_thread::get_id();
+    std::ostringstream ss;
+    ss << thread_id;
+    std::string thread_info;
+    thread_info = thread_info + "thread id: " + ss.str() + " starts the infinite poll!";
+    logger_.DEBUG(thread_info.c_str());
     while(!this->CheckQuit()) {
         std::vector<Channel*> ready_channels = poller_->Poll(-1);
         std::for_each(std::begin(ready_channels), std::end(ready_channels), [](const auto& channel){channel->HandleEvent();});

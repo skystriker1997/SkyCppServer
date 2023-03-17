@@ -8,9 +8,8 @@ Channel::Channel(EventLoop* eloop, int fd) : eloop_(eloop), fd_(fd), listen_even
 
 
 Channel::~Channel() {
-    if(fd_ != -1) {
-        close(fd_);
-        fd_ = -1;
+    if(CheckInEpoll()) {
+        eloop_->DeleteChannel(this);
     }
 }
 
@@ -67,10 +66,10 @@ void Channel::SetReadyEvents(uint32_t ev) {
 
 
 void Channel::HandleEvent() {
-    if (ready_events_ & (EPOLLIN | EPOLLPRI)) {
+    if (GetReadyEvents() & (EPOLLIN | EPOLLPRI)) {
         read_callback_();
     }
-    if (ready_events_ & EPOLLOUT) {
+    if (GetReadyEvents() & EPOLLOUT) {
         write_callback_();
     }
 }
