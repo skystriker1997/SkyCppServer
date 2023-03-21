@@ -8,8 +8,8 @@
 #include <string>
 
 
-#ifndef SKYSERVER_CONNECTION_H
-#define SKYSERVER_CONNECTION_H
+#ifndef SKY_CONNECTION_H
+#define SKY_CONNECTION_H
 
 
 class Connection {

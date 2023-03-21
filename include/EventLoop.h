@@ -9,8 +9,8 @@
 #include "Logger.h"
 
 
-#ifndef SKYSERVER_EVENTLOOP_H
-#define SKYSERVER_EVENTLOOP_H
+#ifndef SKY_EVENTLOOP_H
+#define SKY_EVENTLOOP_H
 
 
 class EventLoop {

@@ -1,7 +1,6 @@
+#ifndef SKY_MACROS_H
 
-#ifndef SKYSERVER_MACROS_H
-
-#define SKYSERVER_MACROS_H
+#define SKY_MACROS_H
 
 #define OS_LINUX
 

@@ -14,8 +14,8 @@
 #include <string>
 
 
-#ifndef SKYSERVER_SERVER_H
-#define SKYSERVER_SERVER_H
+#ifndef SKY_SERVER_H
+#define SKY_SERVER_H
 
 
 

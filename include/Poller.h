@@ -5,8 +5,8 @@
 #include "Macros.h"
 #include "Logger.h"
 
-#ifndef SKYSERVER_POLLER_H
-#define SKYSERVER_POLLER_H
+#ifndef SKY_POLLER_H
+#define SKY_POLLER_H
 
 
 class Poller {

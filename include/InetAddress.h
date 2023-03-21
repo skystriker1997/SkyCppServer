@@ -3,8 +3,8 @@
 #include <cstring>
 #include <memory>
 
-#ifndef SKYSERVER_INETADDRESS_H
-#define SKYSERVER_INETADDRESS_H
+#ifndef SKY_INETADDRESS_H
+#define SKY_INETADDRESS_H
 
 
 class InetAddress {

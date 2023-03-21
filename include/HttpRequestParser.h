@@ -2,8 +2,8 @@
 #include <string>
 
 
-#ifndef SKYCPPSERVER_HTTPPARSER_H
-#define SKYCPPSERVER_HTTPPARSER_H
+#ifndef SKY_HTTPPARSER_H
+#define SKY_HTTPPARSER_H
 
 
 class HttpRequestParser {

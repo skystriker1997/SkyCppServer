@@ -9,8 +9,8 @@
 #include <string>
 
 
-#ifndef SKYSERVER_ACCEPTOR_H
-#define SKYSERVER_ACCEPTOR_H
+#ifndef SKY_ACCEPTOR_H
+#define SKY_ACCEPTOR_H
 
 
 class EventLoop;

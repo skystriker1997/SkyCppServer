@@ -6,8 +6,8 @@
 #include <string>
 #include "Logger.h"
 
-#ifndef SKYSERVER_CHANNEL_H
-#define SKYSERVER_CHANNEL_H
+#ifndef SKY_CHANNEL_H
+#define SKY_CHANNEL_H
 
 
 class EventLoop;

@@ -12,8 +12,8 @@
 #include "Logger.h"
 
 
-#ifndef SKYSERVER_THREADPOOL_H
-#define SKYSERVER_THREADPOOL_H
+#ifndef SKY_THREADPOOL_H
+#define SKY_THREADPOOL_H
 
 
 class ThreadPool {

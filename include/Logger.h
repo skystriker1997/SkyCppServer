@@ -11,8 +11,8 @@
 #include <cstring>
 
 
-#ifndef SKYSERVER_LOGGER_H
-#define SKYSERVER_LOGGER_H
+#ifndef SKY_LOGGER_H
+#define SKY_LOGGER_H
 
 
 

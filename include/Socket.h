@@ -10,8 +10,8 @@
 #include <memory>
 
 
-#ifndef SKYSERVER_SOCKET_H
-#define SKYSERVER_SOCKET_H
+#ifndef SKY_SOCKET_H
+#define SKY_SOCKET_H
 
 
 class Socket {

@@ -1,8 +1,8 @@
 #include <string>
 #include <memory>
 
-#ifndef SKYSERVER_BUFFER_H
-#define SKYSERVER_BUFFER_H
+#ifndef SKY_BUFFER_H
+#define SKY_BUFFER_H
 
 
 class Buffer {

@@ -3,8 +3,8 @@
 #include <cstdio>
 #include "Macros.h"
 
-#ifndef SKYSERVER_FILELOCK_H
-#define SKYSERVER_FILELOCK_H
+#ifndef SKY_FILELOCK_H
+#define SKY_FILELOCK_H
 
 
 class FileLock {
