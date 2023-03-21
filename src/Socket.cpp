@@ -86,3 +86,10 @@ int Socket::GetFd() const{
 InetAddress* Socket::GetAddr() {
     	return addr_.get();
 }
+
+
+
+void Socket::SetFd(int fd) {
+		fd_ = fd;
+}
+

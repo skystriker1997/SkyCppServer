@@ -16,7 +16,7 @@
 
 class Socket {
 private:
-    	int fd_{};
+    	int fd_;
     	Logger logger_;
     	std::unique_ptr<InetAddress> addr_;
 
@@ -32,6 +32,7 @@ public:
     	bool CheckNonBlocking() const;
     	int Accept(InetAddress* addr);
     	InetAddress* GetAddr();
+		void SetFd(int fd);
 };
 
 
