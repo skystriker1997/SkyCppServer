@@ -5,6 +5,7 @@
 #include "Buffer.h"
 #include "Logger.h"
 #include <queue>
+#include <string>
 
 
 #ifndef SKYSERVER_CONNECTION_H
@@ -14,51 +15,52 @@
 class Connection {
 
 public:
-    enum State {Available, Closed};
+    	enum State {Available, Closed};
 private:
-    EventLoop* eloop_;
-    std::unique_ptr<Socket> sock_;
-    std::unique_ptr<Channel> channel_;
-    State state_;
-    std::unique_ptr<Buffer> read_buffer_;
-    std::unique_ptr<Buffer> write_buffer_;
-    std::function<void(Connection*)> on_receive_callback_;
-    std::function<void(Socket*)> delete_self_on_server_callback_;
-    Logger logger_;
+    	EventLoop* eloop_;
+    	std::unique_ptr<Socket> sock_;
+    	std::unique_ptr<Channel> channel_;
+    	State state_;
+    	std::unique_ptr<Buffer> read_buffer_;
+    	std::unique_ptr<Buffer> write_buffer_;
+    	std::function<void(Connection*)> on_receive_callback_;
+    	std::function<void(Socket*)> delete_self_on_server_callback_;
+    	Logger logger_;
 
-    void ReadNonBlocking();
-    void WriteNonBlocking();
+    	void ReadNonBlocking();
+    	void WriteNonBlocking();
 
 public:
-    DISALLOW_COPY_AND_MOVE(Connection);
-    Connection(EventLoop* eloop, std::unique_ptr<Socket> sock);
-    ~Connection();
+    	DISALLOW_COPY_AND_MOVE(Connection);
+    	Connection(EventLoop* eloop, std::unique_ptr<Socket> sock);
+    	~Connection();
 
-    void Read();
-    void Write();
+    	void Read();
+    	void Write();
 
-    void SetChannelWriteCallback();
+    	void SetChannelWriteCallback();
 
-    void SetChannelReadCallback();
+    	void SetChannelReadCallback();
 
-    void SetOnReceiveCallback(const std::function<void(Connection *)>& callback);
+    	void SetOnReceiveCallback(const std::function<void(Connection *)>& callback);
 
-    template<typename F>
-    void SetDeleteSelfOnServerCallback(F&& callback) {
-        delete_self_on_server_callback_ = callback;
-    };
+    	template<typename F>
+    	void SetDeleteSelfOnServerCallback(F&& callback) {
+        		delete_self_on_server_callback_ = callback;
+    	};
 
-    void DeleteSelf(Socket* sock);
+    	void DeleteSelf(Socket* sock);
 
+    	Buffer* GetReadBuffer();
+    	Buffer* GetSendBuffer();
 
-    Buffer* GetReadBuffer();
-    Buffer* GetSendBuffer();
+    	void EnableChannelWrite();
+    	void EnableChannelRead();
 
-    void EnableChannelWrite();
-    void EnableChannelRead();
-
-    Socket* GetSocket() const;
+    	Socket* GetSocket() const;
 
 };
+
+
 
 #endif

@@ -16,26 +16,25 @@
 
 
 
-class Logger{
+class Logger {
 public:
-    enum log_level{debug, info, warning, error};
-    enum log_target{file, terminal, file_and_terminal};
+    	enum log_level{debug, info, warning, error};
+    	enum log_target{file, terminal, file_and_terminal};
 
 private:
-    std::ofstream outfile_;    //Note: This variable type represents the output file stream and is used to create files and to write information to files.
-    std::string path_;              // Note: path to logger file
-    log_level level_;          // Note: level of message
-    log_target target_;
-    void Output(const char* text, log_level actual_level);
+    	std::ofstream outfile_;    
+    	std::string path_;            
+    	log_level level_;          // Note: hierarchy of message
+    	log_target target_;
+    	void Output(const char* text, log_level actual_level);
 
 public:
-    Logger();
-    static std::string CurrentDateTime();
-    void DEBUG(const char* text);
-    void INFO(const char* text);
-    void WARNING(const char* text);
-    void ERROR(const char* text);
-
+    	Logger();
+    	static std::string CurrentDateTime();
+    	void DEBUG(const char* text);
+    	void INFO(const char* text);
+    	void WARNING(const char* text);
+    	void ERROR(const char* text);
 };
 
 
