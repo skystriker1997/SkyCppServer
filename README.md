@@ -2,6 +2,7 @@
 
 
 
+
 #### Overview
 
 SkyNetlib accomplishes a cpp network library and examples of application established based on the library. SkyNetlib's core execution is based on reactor pattern, which is realized by deploying epolls monitoring file descriptors that have been assigned proper callback function to handle events. To make better use of computer resoures, I assign each epoll to a sprarate thread. 
@@ -10,11 +11,11 @@ SkyNetlib accomplishes a cpp network library and examples of application establi
 
 #### Structure
 
-.src/                                              <==  source code of library
+.src/ &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <== &nbsp source code of library
 
-.include/                                          <==  header files
+.include/ &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <== &nbsp header files
 
-.application/                                      <==  test files that could be executed to verify the functionality   
+.application/ &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <== &nbsp test files that could be executed to verify the functionality   
 
 
 
@@ -26,7 +27,7 @@ Ubuntu 20.04.5
 
 #### Prerequisites
 
-Clang >= 6.0  or  GCC >= 5.0
+Clang >= 6.0 &nbsp  or &nbsp  GCC >= 5.0
 
 CMake >= 3.8 
 
