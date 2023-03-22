@@ -9,6 +9,7 @@ Buffer::~Buffer() = default;;
 
 
 void Buffer::Append(const char* buffer, long size) {
+	int a = 8;
     buffer_.append(buffer, size);
 }
 
