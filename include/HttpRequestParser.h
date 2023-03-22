@@ -8,28 +8,28 @@
 
 class HttpRequestParser {
 private:
-    	std::string http_request_;
-    	bool problematic_;
-    	std::string method_;
-    	std::string uri_;
-    	std::string content_type_;
-    	std::string content_length_;
-    	std::string request_body_;
+    std::string http_request_;
+    bool problematic_;
+    std::string method_;
+    std::string uri_;
+    std::string content_type_;
+    std::string content_length_;
+    std::string request_body_;
 
 public:
-    	explicit HttpRequestParser(const char* request);
+    explicit HttpRequestParser(const char* request);
 
-    	~HttpRequestParser();
+    ~HttpRequestParser();
 
-    	void Parse();
+    void Parse();
 
-    	bool CheckProblematic() const;
+    bool CheckProblematic() const;
 
-    	const std::string& GetMethod();
-    	const std::string& GetURI();
-    	const std::string& GetContentType();
-    	const std::string& GetContentLength();
-    	const std::string& GetBody();
+    const std::string& GetMethod();
+    const std::string& GetURI();
+    const std::string& GetContentType();
+    const std::string& GetContentLength();
+    const std::string& GetBody();
 };
 
 #endif

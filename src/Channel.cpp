@@ -8,73 +8,74 @@ Channel::Channel(EventLoop* eloop, int fd) : eloop_(eloop), fd_(fd), listen_even
 
 
 Channel::~Channel() {
-    	if(CheckInEpoll()) {
-        		eloop_->DeleteChannel(this);
+    if(CheckInEpoll()) {
+        eloop_->DeleteChannel(this);
     }
 }
 
 
 
 int Channel::GetFd() const {
-    	return fd_;
+    return fd_;
 }
 
 
 
 uint32_t Channel::GetListenEvents() const {
-		return listen_events_;
+    return listen_events_;
 }
 
 
 
 uint32_t Channel::GetReadyEvents() const {
-    	return ready_events_;
+    return ready_events_;
 }
 
 
 
 bool Channel::CheckInEpoll() const {
-    	return in_epoll_;
+    return in_epoll_;
 }
 
 
 
 void Channel::SetInEpoll(bool in) {
-    	in_epoll_ = in;
+    in_epoll_ = in;
 }
 
 
 
 void Channel::EnableRead() {
-    	listen_events_ = EPOLLIN | EPOLLPRI;
-    	eloop_->UpdateChannel(this);
+    listen_events_ = EPOLLIN | EPOLLPRI;
+    eloop_->UpdateChannel(this);
 }
 
 
 
 void Channel::EnableWrite() {
-    	listen_events_ |= EPOLLOUT;
-    	eloop_->UpdateChannel(this);
+    listen_events_ |= EPOLLOUT;
+    eloop_->UpdateChannel(this);
 }
 
 
 
 void Channel::SetReadyEvents(uint32_t ev) {
-    	ready_events_ |= ev;
+    ready_events_ |= ev;
 }
 
 
 
 void Channel::HandleEvent() {
-		std::string message = "the channel for sockfd.";
-		message = message + std::to_string(fd_) + " listens " + std::to_string(GetListenEvents()) + " and is ready with " + std::to_string(GetReadyEvents());
-	   	logger_.DEBUG(message.c_str());
-    	if(GetReadyEvents() & (EPOLLIN | EPOLLPRI)) {
-        		read_callback_();
-    	}
-    	if(GetReadyEvents() & EPOLLOUT) {
-        		write_callback_();
-    	}
+    std::string message = "the channel for sockfd.";
+    message = message + std::to_string(fd_) + " listens " + std::to_string(GetListenEvents()) + \
+			  " and is ready with " + std::to_string(GetReadyEvents());
+	logger_.DEBUG(message.c_str());
+    if(GetReadyEvents() & (EPOLLIN | EPOLLPRI)) {
+        read_callback_();
+    }
+    if(GetReadyEvents() & EPOLLOUT) {
+        write_callback_();
+    }
 }
 
 

@@ -15,26 +15,26 @@
 
 class EventLoop {
 private:
-    	bool quit_;
-    	Logger logger_;
-    	std::unique_ptr<Poller> poller_;
+    bool quit_;
+    Logger logger_;
+    std::unique_ptr<Poller> poller_;
 
 public:
-    	DISALLOW_COPY_AND_MOVE(EventLoop);
-    	EventLoop();
-    	~EventLoop();
+    DISALLOW_COPY_AND_MOVE(EventLoop);
+    EventLoop();
+    ~EventLoop();
 
-    	void Loop();
+    void Loop();
 
-    	int GetEpfd();
+    int GetEpfd();
 
-    	void UpdateChannel(Channel* channel);
-    	void DeleteChannel(Channel* channel);
+    void UpdateChannel(Channel* channel);
+    void DeleteChannel(Channel* channel);
 
-    	bool CheckQuit() const;
-    	void Quit();
+    bool CheckQuit() const;
+    void Quit();
 
-    	unsigned long FdCount();
+    unsigned long FdCount();
 
 };
 

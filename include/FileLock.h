@@ -9,15 +9,15 @@
 
 class FileLock {
 private:
-    	struct flock flck_{};
-    	int fd_;
-    	int if_wait_;
+    struct flock flck_{};
+    int fd_;
+    int if_wait_;
 
 public:
-    	int ret_ = -1;
-    	DISALLOW_COPY_AND_MOVE(FileLock);
-    	FileLock(int fd, int if_wait , short l_type, short l_whence, int l_offset, int l_len);
-    	~FileLock();
+    int ret_ = -1;
+    DISALLOW_COPY_AND_MOVE(FileLock);
+    FileLock(int fd, int if_wait , short l_type, short l_whence, int l_offset, int l_len);
+    ~FileLock();
 };
 
 
