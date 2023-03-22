@@ -10,11 +10,11 @@ SkyNetlib accomplishes a cpp network library and examples of application establi
 
 #### Structure
 
-.src/                   <==  source code of library
+.src/                                              <==  source code of library
 
-.include/           <==  header files
+.include/                                          <==  header files
 
-.application/    <==  test files that could be executed to verify the functionality   
+.application/                                      <==  test files that could be executed to verify the functionality   
 
 
 
@@ -38,7 +38,7 @@ CMake >= 3.8
 
 `cmake /your/directory`
 
-` cmake --build /your/directory/build`
+`cmake --build /your/directory/build`
 
 
 
