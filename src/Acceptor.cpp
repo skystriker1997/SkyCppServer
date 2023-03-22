@@ -23,8 +23,7 @@ Acceptor::~Acceptor() = default;
 void Acceptor::AcceptConnection() {
     	auto clnt_sock = std::make_unique<Socket>();
     	int fd = sock_->Accept(clnt_sock->GetAddr());		
-		if(fd == -1)
-				return;	
+		if(fd == -1) return;	
 		clnt_sock->SetFd(fd);
     	char new_client_info[100];
     	sprintf(new_client_info, "accept new client fd.%d, with IP %s, port %d\n", clnt_sock->GetFd(), inet_ntoa(clnt_sock->GetAddr()->GetAddr()->sin_addr), ntohs(clnt_sock->GetAddr()->GetAddr()->sin_port));
