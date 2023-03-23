@@ -1,23 +1,33 @@
 #include "TcpServer.h"
+#include "Global.h"
 
 
-
-TcpServer::TcpServer(uint16_t port) : port_(port) {
+TcpServer::TcpServer(uint16_t port) : port_(port), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
+    std::string message;
     main_reactor_ = std::make_unique<EventLoop>();
+    if(main_reactor_->GetEpfd() < 3) {
+        message += "get error when trying to creating epoll as main reactor";
+        logger_.ERROR(message.c_str());
+        std::exit(0);
+    } else {
+        message = "epollfd." + std::to_string(main_reactor_->GetEpfd()) + " has been created as a main reactor";
+        logger_.DEBUG(message.c_str());
+    }
+
     acceptor_ = std::make_unique<Acceptor>(main_reactor_.get(), port_);
     acceptor_->SetNewConnectionCallback([this](std::unique_ptr<Socket> sock){this->NewConnection(std::move(sock));});
     unsigned int size = std::thread::hardware_concurrency();
     thread_pool_ = std::make_unique<ThreadPool>(size);
     for(int i = 0; i < size; ++i) {
         auto sub_reactor = std::make_unique<EventLoop>();
-        if(sub_reactor->GetEpfd() != -1) {
-            sub_reactors_.push_back(std::move(sub_reactor));  	
+        if(sub_reactor->GetEpfd() > 2) {
+            sub_reactors_.push_back(std::move(sub_reactor));
+            message.clear();
+            message = message + "epollfd." + std::to_string(sub_reactors_.back()->GetEpfd()) + " has been created as a sub reactor";    
+            logger_.DEBUG(message.c_str());
         }
     }
-    unsigned long length = sub_reactors_.size();
-    std::string message;
-    message = message + std::to_string(length) + " epolls have been created as sub reactor!";
-    logger_.DEBUG(message.c_str());
+    int length = sub_reactors_.size();
     for(int i = 0; i < length; ++i) {    
         thread_pool_->AddTask([sub_reactor = sub_reactors_[i].get()]()-> void {sub_reactor->Loop();});
     }

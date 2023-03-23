@@ -1,8 +1,9 @@
 #include "Acceptor.h"
+#include "Global.h"
 
 
 
-Acceptor::Acceptor(EventLoop* eloop, uint16_t port) : eloop_(eloop) {
+Acceptor::Acceptor(EventLoop* eloop, uint16_t port) : eloop_(eloop), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
     char ip[] = "127.0.0.1";
     auto addr = std::make_unique<InetAddress>(ip, port);
     sock_ = std::make_unique<Socket>(std::move(addr));
@@ -27,7 +28,7 @@ void Acceptor::AcceptConnection() {
         return;	
     clnt_sock->SetFd(fd);
     char new_client_info[100];
-    sprintf(new_client_info, "accept new client fd.%d, with IP %s, port %d\n", clnt_sock->GetFd(), \
+    sprintf(new_client_info, "accept new client sockfd.%d, with IP %s, port %d\n", clnt_sock->GetFd(), \
 						inet_ntoa(clnt_sock->GetAddr()->GetAddr()->sin_addr), ntohs(clnt_sock->GetAddr()->GetAddr()->sin_port));
     logger_.DEBUG(new_client_info);
     clnt_sock->SetNonBlocking();

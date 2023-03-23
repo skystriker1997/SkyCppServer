@@ -2,16 +2,18 @@
 
 
 
-Logger::Logger(): level_(debug), target_(file_and_terminal), path_("../log/logger.txt") {}
+Logger::Logger(log_level level, log_target target, const char* path): level_(level), target_(target), path_(path) {}
 
+Logger::~Logger() = default;
 
 
 std::string Logger::CurrentDateTime() {
     time_t now = time(nullptr);
     tm tmstruct = *localtime(&now);
     char buf[80];
-    if(strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tmstruct) == 0)
-        perror("failed to format datetime: ");
+    if(strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tmstruct) == 0) {
+        perror("failed to format datetime for log: ");
+	}
     return buf;
 }
 
@@ -31,9 +33,11 @@ void Logger::Output(const char* text, log_level actual_level) {
     }
     if(target_ != terminal) {
         {
-            int fd = open(this->path_.c_str(), O_WRONLY|O_APPEND);
-            if(fd == -1) {
-                perror("failed to open log file: ");
+            std::string message;				
+            int fd = open(this->path_.c_str(), O_CREAT|O_WRONLY|O_APPEND, S_IRUSR|S_IWUSR);
+            if(fd == -1) {	
+                message = message + "failed to open log file: " + path_ + ", error info: " + strerror(errno);
+                perror(message.c_str());
                 return;
             }
             FileLock file_lock(fd, F_SETLKW, F_WRLCK, SEEK_SET, 0, 0);
@@ -43,8 +47,8 @@ void Logger::Output(const char* text, log_level actual_level) {
             size_t nbytes = strlen(buf);
             ssize_t bytes_written = write(fd, buf, nbytes);
             if(bytes_written == -1) {
-                char message[] = "failed to write message into log file, which says ";
-                perror(std::strcat(message, buf));
+                message = message + "failed to write message into " + path_ + ", error info: " + strerror(errno);
+                perror(message.c_str());
             }
         }  
     }

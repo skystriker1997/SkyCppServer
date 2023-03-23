@@ -1,8 +1,8 @@
 #include "Connection.h"
+#include "Global.h"
 
 
-
-Connection::Connection(EventLoop *eloop, std::unique_ptr<Socket> sock) : state_(Available), eloop_(eloop), sock_(std::move(sock)) {
+Connection::Connection(EventLoop *eloop, std::unique_ptr<Socket> sock) : state_(Available), eloop_(eloop), sock_(std::move(sock)), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
     channel_ = std::make_unique<Channel>(eloop_, sock_->GetFd());
     this->EnableChannelRead();
     read_buffer_ = std::make_unique<Buffer>();
@@ -55,6 +55,7 @@ void Connection::ReadNonBlocking() {
     int sockfd = sock_->GetFd();
     char buf[8196];
     bool do_business = false;
+    std::string message;
     // Note: try to read all readable data from socket whenever be called
     while (true) {
         memset(buf, 0, sizeof(buf));
@@ -65,6 +66,8 @@ void Connection::ReadNonBlocking() {
         } else if(bytes_read > 0 && bytes_read < 8196) {
             read_buffer_->Append(buf, bytes_read);
             do_business = true;
+            message = message + "connection of sockfd." + std::to_string(sockfd) + " fulfilled the read buffer";
+            logger_.DEBUG(message.c_str());
             break;
         } else if(bytes_read == -1 && errno == EINTR) {
             continue;
@@ -73,7 +76,6 @@ void Connection::ReadNonBlocking() {
         } else if(bytes_read == 0) {
             state_ = State::Closed;
         } else {
-            std::string message;
             message = message + "failed to read from sockfd." + std::to_string(sockfd) + \
 					  " because of unexpected error, error info: " + strerror(errno);
             logger_.ERROR(message.c_str());

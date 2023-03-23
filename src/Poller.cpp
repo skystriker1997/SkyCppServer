@@ -1,11 +1,13 @@
 #include "Poller.h"
+#include "Global.h"
 
-
-Poller::Poller() : fd_count_(0), epfd_(-1), max_events_(4096) {
+Poller::Poller() : fd_count_(0), epfd_(-1), max_events_(4096), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
     events_ = std::make_unique<epoll_event[]>(max_events_);
     epfd_ = epoll_create1(0);
     if(epfd_ == -1) {
-        logger_.ERROR(strerror(errno));
+        std::string message = "failed to create epoll, error info: ";
+        message += strerror(errno);
+        logger_.ERROR(message.c_str());
     }
 }
 

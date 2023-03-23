@@ -1,8 +1,8 @@
 #include "EventLoop.h"
+#include "Global.h"
 
 
-
-EventLoop::EventLoop() : quit_(false) {
+EventLoop::EventLoop() : quit_(false), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
     poller_ = std::make_unique<Poller>();
 }
 
@@ -19,7 +19,7 @@ void EventLoop::Loop() {
     std::ostringstream ss;
     ss << thread_id;
     std::string task_ini;
-    task_ini = task_ini + "thread id: " + ss.str() + " starts the looping poll!";
+    task_ini = task_ini + "epfd." + std::to_string(this->GetEpfd()) + " starts the looping poll on thread_id." + ss.str();
     logger_.DEBUG(task_ini.c_str());
     while(!this->CheckQuit()) {
         std::vector<Channel*> ready_channels = poller_->Poll(-1);

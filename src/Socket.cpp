@@ -1,8 +1,8 @@
 #include "Socket.h"
+#include "Global.h"
 
 
-
-Socket::Socket(std::unique_ptr<InetAddress> addr) : addr_(std::move(addr)) {
+Socket::Socket(std::unique_ptr<InetAddress> addr) : addr_(std::move(addr)), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
     fd_ = socket(AF_INET, SOCK_STREAM, 0);
     if (fd_ == -1) {
         char message[] = "failed to create socket, error info: ";
@@ -12,7 +12,7 @@ Socket::Socket(std::unique_ptr<InetAddress> addr) : addr_(std::move(addr)) {
 
 
 
-Socket::Socket() {
+Socket::Socket() : logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
     addr_ = std::make_unique<InetAddress>();
 }
 
