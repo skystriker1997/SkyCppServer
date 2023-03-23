@@ -29,7 +29,8 @@ private:
     void Output(const char* text, log_level actual_level);
 
 public:
-    Logger();
+    Logger(log_level level, log_target target, const char* path);
+    ~Logger();
     static std::string CurrentDateTime();
     void DEBUG(const char* text);
     void INFO(const char* text);

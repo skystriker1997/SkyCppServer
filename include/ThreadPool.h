@@ -25,6 +25,7 @@ private:
     bool stop_;
     Logger logger_;
 
+
 public:
     DISALLOW_COPY_AND_MOVE(ThreadPool);
 

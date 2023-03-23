@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <string>
-
+#include <cstdlib>
 
 #ifndef SKY_SERVER_H
 #define SKY_SERVER_H
