@@ -2,8 +2,8 @@
 
 ### Overview
 
-SkyNetlib is still in development, and it briefly accomplishes a cpp network library and examples of application established based on the library. 
-SkyNetlib's core execution is based on reactor pattern, which is realized by deploying epolls monitoring file descriptors assigned proper callback function to handle events. To make better use of computer resoures, I assign each epoll to a sprarate thread. 
+SkyNetlib is still in development, briefly accomplished the framework of a CPP network library and examples of application established based on the library. 
+SkyNetlib's core mechanism embodies reactor pattern, which is realised by deploying epolls monitoring file descriptors assigned proper callback function to handle events(read/write). To make better use of computer resoures, I assign each epoll's execution to a sprarate thread. 
 
 &nbsp;
 
