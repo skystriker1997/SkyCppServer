@@ -7,6 +7,8 @@
 #include "Logger.h"
 #include <cstdio>
 #include <string>
+#include "Macros.h"
+
 
 
 #ifndef SKY_ACCEPTOR_H
@@ -26,6 +28,7 @@ private:
     Logger logger_;
 
 public:
+    DISALLOW_COPY_AND_MOVE(Acceptor);
     Acceptor(EventLoop* eloop, uint16_t port);
     ~Acceptor();
 

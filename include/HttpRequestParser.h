@@ -1,5 +1,6 @@
 #include <regex>
 #include <string>
+#include "Macros.h"
 
 
 #ifndef SKY_HTTPPARSER_H
@@ -17,6 +18,7 @@ private:
     std::string request_body_;
 
 public:
+    DISALLOW_COPY_AND_MOVE(HttpRequestParser);
     explicit HttpRequestParser(const char* request);
 
     ~HttpRequestParser();

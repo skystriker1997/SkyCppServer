@@ -1,5 +1,6 @@
 #include <string>
 #include <memory>
+#include "Macros.h"
 
 #ifndef SKY_BUFFER_H
 #define SKY_BUFFER_H
@@ -10,6 +11,7 @@ private:
     std::string buffer_;
 
 public:
+    DISALLOW_COPY_AND_MOVE(Buffer);
     Buffer();
     ~Buffer();
 

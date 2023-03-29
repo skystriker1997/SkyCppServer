@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <cstring>
+#include "Macros.h"
+
 
 
 #ifndef SKY_LOGGER_H
@@ -29,6 +31,7 @@ private:
     void Output(const char* text, log_level actual_level);
 
 public:
+    DISALLOW_COPY_AND_MOVE(Logger);
     Logger(log_level level, log_target target, const char* path);
     ~Logger();
     static std::string CurrentDateTime();

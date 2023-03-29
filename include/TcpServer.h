@@ -34,6 +34,7 @@ private:
     std::vector<std::unique_ptr<KV>> connections_;
 
 public:
+    DISALLOW_COPY_AND_MOVE(Connections);
     Connections() = default;
     ~Connections() = default;
     void PushBack(EventLoop* eloop, std::unique_ptr<Socket> sock) {
