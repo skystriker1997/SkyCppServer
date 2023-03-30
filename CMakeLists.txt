@@ -8,20 +8,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 add_executable(HttpServer
-        application/HttpServer.cpp)
+        application/http/HttpServer.cpp)
 
 target_include_directories(HttpServer
-        PRIVATE include/)
+        PRIVATE include/ application/http)
 
 target_link_libraries(HttpServer
         PRIVATE Connection TcpServer HttpRequestParser
         )
 
 add_library(HttpRequestParser
-        src/HttpRequestParser.cpp)
+        application/http/HttpRequestParser.cpp)
 
 target_include_directories(HttpRequestParser
-        PRIVATE include/)
+        PRIVATE include/ include/application/http)
 
 add_library(Acceptor
         src/Acceptor.cpp)
