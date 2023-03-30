@@ -13,7 +13,7 @@
 #include <cstdlib>
 
 
-char http_log_path[] = "/home/parallels/projects/SkyNetlib/log/http_log"; 
+char http_log_path[] = "/home/parallels/projects/SkyNetlib/log/http_log";  // use absolute path to avoid error when finding the file 
 
 
 

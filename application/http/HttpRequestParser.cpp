@@ -26,7 +26,7 @@ void HttpRequestParser::Parse() {
     } else {
         url_ = match[2];
         if(url_ == "/") {
-            url_ = "/home/parallels/projects/SkyNetlib/static_files/index.html";
+            url_ = "/home/parallels/projects/SkyNetlib/static_files/index.html";  // use absolute path to avoid error when finding the file 
         }
     }
     if(method_ == "POST" ) {
