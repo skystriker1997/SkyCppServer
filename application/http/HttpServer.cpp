@@ -10,6 +10,8 @@
 #include "Logger.h"
 
 
+char http_log_path[] = "../log/http_log"; 
+
 
 
 void SetBuffer(Connection* connection) {
@@ -21,16 +23,20 @@ void SetBuffer(Connection* connection) {
         return;
     }
     if(parser.GetMethod() == "GET") {
-        if(access(parser.GetURI().c_str(), F_OK) == -1) {
+        std::string message;
+        message = message + "request url: " + parser.GetURL();
+        Logger logger(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path);
+        logger.DEBUG(message.c_str());
+        if(access(parser.GetURL().c_str(), F_OK) == -1) {
             std::string response = "HTTP/1.1 404 File Not Found\r\n";
             connection->GetSendBuffer()->SetBuf(std::move(response));
         } else {
             std::string response;
             response += "HTTP/1.1 200 OK\r\n";
             std::smatch match;
-            std::regex type_regex("\\S+\\.(a-z+)");
+            std::regex type_regex(R"(\.([a-z]+)$)");
             std::string content_type = "Content-Type: ";
-            std::regex_search(parser.GetURI(), match, type_regex);
+            std::regex_search(parser.GetURL(), match, type_regex);
             if(match[1] == "pdf") {
                 content_type += "application/pdf";
             } else if (match[1] == "html") {
@@ -39,17 +45,19 @@ void SetBuffer(Connection* connection) {
                 content_type += "application/json";
             } else if (match[1] == "jpeg") {
                 content_type += "image/jpeg";
-            } else {
+            } else if (match[1] == "png") {
                 content_type += "image/png";
+            } else {
+                content_type += "unidentified";
             }
-            response += content_type;
+            response = response + content_type + "\r\n";
             std::ios_base::openmode mode;
             if(match[1] == "json" || match[1] == "pdf" || match[1] == "jpeg" || match[1] == "png") {
                 mode = std::ios_base::in | std::ios_base::binary;
             } else {
                 mode = std::ios_base::in;
             }
-            std::ifstream  file(parser.GetURI(), mode);
+            std::ifstream  file(parser.GetURL(), mode);
             std::stringstream file_contents;
             file_contents << file.rdbuf();
             file.close();
@@ -67,17 +75,19 @@ void SetBuffer(Connection* connection) {
 
 
 int main() {
-    Logger logger;
-    auto tcp_server = std::make_unique<TcpServer>(9111);
-    char message1[] = "made a tcp server listening at 9111 port";
-    logger.DEBUG(message1);
+    int port = 9111;
+    Logger logger(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path);
+    auto tcp_server = std::make_unique<TcpServer>(port);
+    std::string message1 = "http server is listening at ";
+    message1 += std::to_string(port);
+    logger.DEBUG(message1.c_str());
     tcp_server->SetOnReceiveCallback(
             [](Connection* connection){
                 SetBuffer(connection);
                 connection->EnableChannelWrite();
             }
 		);
-    char message2[] = "tcp server got the on receive callback!";
+    char message2[] = "tcp server got the on receive callback";
     logger.DEBUG(message2);
     tcp_server->Start();
     return 0;
