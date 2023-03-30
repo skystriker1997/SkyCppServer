@@ -21,7 +21,7 @@ add_library(HttpRequestParser
         application/http/HttpRequestParser.cpp)
 
 target_include_directories(HttpRequestParser
-        PRIVATE include/ include/application/http)
+        PRIVATE include/ application/http)
 
 add_library(Acceptor
         src/Acceptor.cpp)
