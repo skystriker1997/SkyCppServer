@@ -126,6 +126,7 @@ void Connection::WriteNonBlocking() {
                 if(write_buffer_->Size() == 0) {
                     state_ = State::Closed;
                     EnableChannelRead();
+                    break;
                 }
         }
     }
