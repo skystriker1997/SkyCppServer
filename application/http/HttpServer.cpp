@@ -8,9 +8,12 @@
 #include <regex>
 #include "Connection.h"
 #include "Logger.h"
+#include <cstring>
+#include <cerrno>
+#include <cstdlib>
 
 
-char http_log_path[] = "../log/http_log"; 
+char http_log_path[] = "/home/parallels/projects/SkyNetlib/log/http_log"; 
 
 
 
@@ -43,8 +46,8 @@ void SetBuffer(Connection* connection) {
                 content_type += "text/html";
             } else if (match[1] == "json") {
                 content_type += "application/json";
-            } else if (match[1] == "jpeg") {
-                content_type += "image/jpeg";
+            } else if (match[1] == "jpg") {
+                content_type += "image/jpg";
             } else if (match[1] == "png") {
                 content_type += "image/png";
             } else {
@@ -52,7 +55,7 @@ void SetBuffer(Connection* connection) {
             }
             response = response + content_type + "\r\n";
             std::ios_base::openmode mode;
-            if(match[1] == "json" || match[1] == "pdf" || match[1] == "jpeg" || match[1] == "png") {
+            if(match[1] == "json" || match[1] == "pdf" || match[1] == "jpg" || match[1] == "png") {
                 mode = std::ios_base::in | std::ios_base::binary;
             } else {
                 mode = std::ios_base::in;
@@ -75,11 +78,11 @@ void SetBuffer(Connection* connection) {
 
 
 int main() {
-    int port = 9111;
     Logger logger(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path);
+    int port = 9111;
     auto tcp_server = std::make_unique<TcpServer>(port);
-    std::string message1 = "http server is listening at ";
-    message1 += std::to_string(port);
+    std::string message1;
+    message1 = message1 + "http server is listening at " + std::to_string(port);
     logger.DEBUG(message1.c_str());
     tcp_server->SetOnReceiveCallback(
             [](Connection* connection){
@@ -87,8 +90,9 @@ int main() {
                 connection->EnableChannelWrite();
             }
 		);
-    char message2[] = "tcp server got the on receive callback";
-    logger.DEBUG(message2);
+    message1.clear();
+    message1 += "tcp server got the on receive callback";
+    logger.DEBUG(message1.c_str());
     tcp_server->Start();
     return 0;
 }

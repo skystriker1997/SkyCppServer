@@ -2,6 +2,7 @@
 
 
 
+
 HttpRequestParser::HttpRequestParser(const char* request) : http_request_(request), problematic_(false) {};
 HttpRequestParser::~HttpRequestParser() = default;;
 
@@ -25,7 +26,7 @@ void HttpRequestParser::Parse() {
     } else {
         url_ = match[2];
         if(url_ == "/") {
-            url_ = "/home/parallels/IT/skynetlib/static_files/index.html";
+            url_ = "/home/parallels/projects/SkyNetlib/static_files/index.html";
         }
     }
     if(method_ == "POST" ) {
