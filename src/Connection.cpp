@@ -43,7 +43,8 @@ void Connection::Write() {
     }
     if(state_ == State::Available) {
         std::string message = "connection of sockfd.";
-        message = message + std::to_string(sock_->GetFd()) + " is about to process write!";
+        message = message + std::to_string(sock_->GetFd()) + " is about to process write!" + " Write buffer has message: " + \
+                  GetSendBuffer()->ToCstr();
         logger_.DEBUG(message.c_str());
         this->WriteNonBlocking();
     }
@@ -66,7 +67,8 @@ void Connection::ReadNonBlocking() {
         } else if(bytes_read > 0 && bytes_read < 8196) {
             read_buffer_->Append(buf, bytes_read);
             do_business = true;
-            message = message + "connection of sockfd." + std::to_string(sockfd) + " fulfilled the read buffer";
+            message = message + "connection of sockfd." + std::to_string(sockfd) + " has completed read. Read buffer has message: " + \
+                      GetReadBuffer()->ToCstr();
             logger_.DEBUG(message.c_str());
             break;
         } else if(bytes_read == -1 && errno == EINTR) {
@@ -114,7 +116,7 @@ void Connection::WriteNonBlocking() {
                 continue;
             } else {
                 std::string message = "failed to write upon sockfd.";
-                message = message + std::to_string(sockfd) + "because of unexpected error, error info: " + strerror(errno);
+                message = message + std::to_string(sockfd) + " because of unexpected error, error info: " + strerror(errno);
                 logger_.ERROR(message.c_str());
                 state_ = State::Closed;
                 break;
