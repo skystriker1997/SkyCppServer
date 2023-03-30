@@ -11,7 +11,7 @@ add_executable(HttpServer
         application/http/HttpServer.cpp)
 
 target_include_directories(HttpServer
-        PRIVATE include/ application/http)
+        PRIVATE include/ application/http/)
 
 target_link_libraries(HttpServer
         PRIVATE Connection TcpServer HttpRequestParser
@@ -21,7 +21,7 @@ add_library(HttpRequestParser
         application/http/HttpRequestParser.cpp)
 
 target_include_directories(HttpRequestParser
-        PRIVATE include/ application/http)
+        PRIVATE include/ application/http/)
 
 add_library(Acceptor
         src/Acceptor.cpp)
