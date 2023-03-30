@@ -1,1 +1,1 @@
-extern char http_log_path[];
+extern char log_path[];

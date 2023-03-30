@@ -3,7 +3,7 @@
 
 
 
-Acceptor::Acceptor(EventLoop* eloop, uint16_t port) : eloop_(eloop), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
+Acceptor::Acceptor(EventLoop* eloop, uint16_t port) : eloop_(eloop), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path) {
     char ip[] = "127.0.0.1";
     auto addr = std::make_unique<InetAddress>(ip, port);
     sock_ = std::make_unique<Socket>(std::move(addr));

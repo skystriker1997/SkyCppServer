@@ -2,7 +2,7 @@
 #include "Global.h"
 
 
-TcpServer::TcpServer(uint16_t port) : port_(port), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
+TcpServer::TcpServer(uint16_t port) : port_(port), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path) {
     std::string message;
     main_reactor_ = std::make_unique<EventLoop>();
     if(main_reactor_->GetEpfd() < 3) {

@@ -13,7 +13,7 @@
 #include <cstdlib>
 
 
-char http_log_path[] = "/home/parallels/projects/SkyNetlib/log/http_log";  // use absolute path to avoid error when finding the file 
+char log_path[] = "/home/parallels/projects/SkyNetlib/log/http_log";  // use absolute path to avoid error when finding the file 
 
 
 
@@ -28,7 +28,7 @@ void SetBuffer(Connection* connection) {
     if(parser.GetMethod() == "GET") {
         std::string message;
         message = message + "request url: " + parser.GetURL();
-        Logger logger(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path);
+        Logger logger(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path);
         logger.DEBUG(message.c_str());
         if(access(parser.GetURL().c_str(), F_OK) == -1) {
             std::string response = "HTTP/1.1 404 File Not Found\r\n";
@@ -78,7 +78,7 @@ void SetBuffer(Connection* connection) {
 
 
 int main() {
-    Logger logger(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path);
+    Logger logger(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path);
     int port = 9111;
     auto tcp_server = std::make_unique<TcpServer>(port);
     std::string message1;

@@ -2,7 +2,7 @@
 #include "Global.h"
 
 
-Connection::Connection(EventLoop *eloop, std::unique_ptr<Socket> sock) : state_(Available), eloop_(eloop), sock_(std::move(sock)), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
+Connection::Connection(EventLoop *eloop, std::unique_ptr<Socket> sock) : state_(Available), eloop_(eloop), sock_(std::move(sock)), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path) {
     channel_ = std::make_unique<Channel>(eloop_, sock_->GetFd());
     this->EnableChannelRead();
     read_buffer_ = std::make_unique<Buffer>();

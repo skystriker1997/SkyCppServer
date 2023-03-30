@@ -3,7 +3,7 @@
 #include "Global.h"
 
 
-Channel::Channel(EventLoop* eloop, int fd) : eloop_(eloop), fd_(fd), listen_events_(0), ready_events_(0), in_epoll_(false), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {}
+Channel::Channel(EventLoop* eloop, int fd) : eloop_(eloop), fd_(fd), listen_events_(0), ready_events_(0), in_epoll_(false), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path) {}
 
 
 

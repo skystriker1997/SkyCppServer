@@ -2,7 +2,7 @@
 #include "Global.h"
 
 
-ThreadPool::ThreadPool(unsigned int size) : stop_(false), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
+ThreadPool::ThreadPool(unsigned int size) : stop_(false), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path) {
     for(unsigned int i = 0; i < size; ++i) {
         workers_.emplace_back([this](){
             while(true) {

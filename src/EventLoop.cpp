@@ -2,7 +2,7 @@
 #include "Global.h"
 
 
-EventLoop::EventLoop() : quit_(false), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, http_log_path) {
+EventLoop::EventLoop() : quit_(false), logger_(Logger::log_level::debug, Logger::log_target::file_and_terminal, log_path) {
     poller_ = std::make_unique<Poller>();
 }
 
