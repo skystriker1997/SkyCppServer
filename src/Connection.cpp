@@ -109,7 +109,7 @@ void Connection::WriteNonBlocking() {
             socklen_t error_code_size = sizeof(error_code);
             getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error_code, &error_code_size);
             if(error_code == ENOTCONN) {
-                // Note: the client has terminated connection
+                // Note: means the client has terminated connection
                 state_ = State::Closed;
                 break;
             } else if (errno == EINTR) {
