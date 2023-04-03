@@ -1,7 +1,6 @@
 #include <sys/epoll.h>
 #include <functional>
 #include "Macros.h"
-#include <unistd.h>
 #include <memory>
 #include <string>
 #include "Logger.h"

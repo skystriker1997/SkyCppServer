@@ -1,5 +1,4 @@
 #include <string>
-#include <memory>
 #include "Macros.h"
 
 #ifndef SKY_BUFFER_H

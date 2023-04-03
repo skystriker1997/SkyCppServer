@@ -4,6 +4,8 @@
 #include "Channel.h"
 #include "Macros.h"
 #include "Logger.h"
+#include <string>
+
 
 #ifndef SKY_POLLER_H
 #define SKY_POLLER_H

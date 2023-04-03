@@ -4,12 +4,10 @@
 #include <unistd.h>
 #include "TcpServer.h"
 #include "HttpRequestParser.h"
-#include <vector>
 #include <regex>
 #include "Connection.h"
 #include "Logger.h"
 #include <cstring>
-#include <cerrno>
 #include <cstdlib>
 
 

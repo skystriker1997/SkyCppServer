@@ -1,6 +1,5 @@
 #include <arpa/inet.h>
 #include "Macros.h"
-#include <cstring>
 #include <memory>
 
 #ifndef SKY_INETADDRESS_H
