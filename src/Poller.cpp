@@ -24,7 +24,7 @@ Poller::~Poller() {
 
 std::vector<Channel*> Poller::Poll(int timeout){
     std::vector<Channel*> active_channels;
-    std::string message = "epollfd.";
+    std::string message = "epfd.";
     int nfds = epoll_wait(epfd_, events_.get(), max_events_, timeout);
     if(nfds == -1) {
         message = message + std::to_string(epfd_) + " encountered error when waiting events, error info: " + strerror(errno);
@@ -37,7 +37,7 @@ std::vector<Channel*> Poller::Poll(int timeout){
             }
     }
     message.clear();
-    message = message + "epollfd." + std::to_string(epfd_) + " has " + std::to_string(active_channels.size()) + " active channels!";
+    message = message + "epfd." + std::to_string(epfd_) + " has " + std::to_string(active_channels.size()) + " active channels!";
     logger_.DEBUG(message.c_str());
     return active_channels;
 }
@@ -53,10 +53,9 @@ int Poller::GetEpfd() const {
 void Poller::UpdateChannel(Channel * channel) {
     int fd = channel->GetFd();
     struct epoll_event ev{};
-    // bzero(&ev, sizeof(ev));
     ev.data.ptr = channel;
     ev.events = channel->GetListenEvents();
-    std::string message = "epollfd.";
+    std::string message = "epfd.";
     if(!channel->CheckInEpoll()) {
         if(epoll_ctl(epfd_, EPOLL_CTL_ADD, fd, &ev) == -1) {
             message = message + std::to_string(epfd_) + " failed to pick up sockfd." + std::to_string(fd) + ", error info: " + strerror(errno);
@@ -83,7 +82,7 @@ void Poller::UpdateChannel(Channel * channel) {
 
 void Poller::DeleteChannel(Channel * channel) {
     int fd = channel->GetFd();
-    std::string message = "epollfd.";
+    std::string message = "epfd.";
     if(epoll_ctl(epfd_, EPOLL_CTL_DEL, fd, nullptr) == -1) {
         message = message + std::to_string(epfd_) + " failed to delete sockfd." + std::to_string(fd) + ", error info: " + strerror(errno);
         logger_.ERROR(message.c_str());
