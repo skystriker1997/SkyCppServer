@@ -42,6 +42,8 @@ void SetBuffer(Connection* connection) {
                 content_type += "application/pdf";
             } else if (match[1] == "html") {
                 content_type += "text/html";
+            } else if (match[1] == "md") {
+                content_type += "text/md";
             } else if (match[1] == "json") {
                 content_type += "application/json";
             } else if (match[1] == "jpg") {
