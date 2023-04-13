@@ -3,7 +3,9 @@
 ### Overview
 
 SkyNetlib is still in development, briefly accomplished the framework of a CPP network library and examples of application established based on the library. 
-SkyNetlib's core mechanism embodies reactor pattern, which is realised by deploying epolls monitoring file descriptors assigned proper callback function to handle events(read/write). To make better use of computer resources, I assign each epoll's execution to a separate thread. 
+SkyNetlib's core mechanism embodies reactor pattern, which is realised by deploying epolls monitoring file descriptors assigned proper callback function to handle events(read/write). To make better use of computer resources, I assign each epoll's execution to a separate thread.
+
+I write my understanding about algorithms respectively into markdown files, along with my solution of typical problems from LeetCode, and put them under static_files folder. They can be accessed via http server. 
 
 &nbsp;
 
