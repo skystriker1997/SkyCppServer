@@ -20,7 +20,7 @@ I will elaborate Leetcode problems to examplify above concepts.
 
 Case1: [LeetCode 216. Combination Sum III](https://leetcode.com/problems/combination-sum-iii/) 
 
-In Leetcode problems, the main part of the recursive function is generally a for loop that traverse potential options, and in each iteration, if the option is selected and the path has not reached the end point, I make a recursive call to further build up the path based on choices made before. As for options that we go through within for loop, they are mutually exclusive, so they cannot affect each other (i.e. if I used option A, then option B's status should be unused). This is the reason why before next iteration, current iteration should cancel changes it made before. 
+In Leetcode problems, the main part of the recursive function is generally a for loop that traverse potential options, and in each iteration, if an option is selected and the path does not reach the end point, I make a recursive call to further build up the path based on choices made before. As for options that we go through within for loop, they are mutually exclusive, so they cannot affect each other (i.e. if I used option A, then option B's status should be unused). This is the reason why before next iteration, current iteration should cancel changes it made before. 
 
 Reminder that i+1 is the first argument passed to the recursive call. This is saying no looking back to prevent duplication. 
 
