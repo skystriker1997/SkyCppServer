@@ -2,10 +2,10 @@
 
 ### Overview
 
-SkyNetlib is still in development, briefly accomplished the framework of a CPP network library and examples of application established based on the library. 
+SkyNetlib is still in development, but I briefly accomplished the framework of a CPP network library and demonstrations of application established based on the library. 
 SkyNetlib's core mechanism embodies reactor pattern, which is realised by deploying epolls monitoring file descriptors assigned proper callback function to handle events(read/write). To make better use of computer resources, I assign each epoll's execution to a separate thread.
 
-I write my understanding about algorithms respectively into markdown files, along with my solution of typical problems from LeetCode, and put them under static_files folder. They can be accessed via http server. 
+Besides, I've been writing my understanding about algorithms and data structures, along with my solution of typical problems from LeetCode, and updating under static_files folder. Welcome to comments. 
 
 &nbsp;
 
@@ -15,7 +15,9 @@ I write my understanding about algorithms respectively into markdown files, alon
 
 .include/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<==  header files
 
-.application/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<==  test files that could be executed to verify the functionality   
+.application/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<==  test files that could be executed to verify the functionality
+
+.static_files/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<==  store static files, an important part is my elaboration of algorithms & data structures      
 
 &nbsp;
 
