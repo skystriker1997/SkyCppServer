@@ -50,8 +50,14 @@ void EventLoop::DeleteChannel(Channel * channel) {
 
 
 
-unsigned long EventLoop::FdCount() {
-    return poller_->FdCount();
+long EventLoop::GetFdCount() {
+    return poller_->GetFdCount();
+}
+
+
+
+bool EventLoop::FdCountLessThan(long n) {
+    return poller_->FdCountLessThan(n);
 }
 
 

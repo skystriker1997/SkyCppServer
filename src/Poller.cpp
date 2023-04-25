@@ -62,7 +62,7 @@ void Poller::UpdateChannel(Channel * channel) {
             logger_.ERROR(message.c_str());
         } else {
             channel->SetInEpoll(true);
-            fd_count_ += 1;
+            ++fd_count_;
             message = message + std::to_string(epfd_) + " picked up sockfd." + std::to_string(fd) + ", which listens " + \
 					  std::to_string(channel->GetListenEvents());
             logger_.DEBUG(message.c_str());
@@ -88,7 +88,7 @@ void Poller::DeleteChannel(Channel * channel) {
         logger_.ERROR(message.c_str());
     } else {
         channel->SetInEpoll(false);
-        fd_count_ -= 1;
+        --fd_count_;
         message = message + std::to_string(epfd_) + " deleted sockfd." + std::to_string(fd);
         logger_.DEBUG(message.c_str());
     }
@@ -96,8 +96,11 @@ void Poller::DeleteChannel(Channel * channel) {
 
 
 
-unsigned long Poller::FdCount() const {
-    return fd_count_;
+bool Poller::FdCountLessThan(long n) {
+    return fd_count_ < n;
 }
 
 
+long Poller::GetFdCount() const {
+    return fd_count_.load();
+}

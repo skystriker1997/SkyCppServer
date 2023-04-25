@@ -5,6 +5,7 @@
 #include "Macros.h"
 #include "Logger.h"
 #include <string>
+#include <atomic>
 
 
 #ifndef SKY_POLLER_H
@@ -16,7 +17,7 @@ private:
     int epfd_;
     std::unique_ptr<epoll_event[]> events_;
     Logger logger_;
-    unsigned long fd_count_;
+    std::atomic<long> fd_count_;
     const int max_events_ = 4096;
 
 public:
@@ -27,7 +28,8 @@ public:
     void UpdateChannel(Channel* channel);
     void DeleteChannel(Channel* channel);
     std::vector<Channel*> Poll(int timeout);
-    unsigned long FdCount() const;
+    bool FdCountLessThan(long n);
+    long GetFdCount() const; 
 };
 
 #endif

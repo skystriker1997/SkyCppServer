@@ -34,7 +34,8 @@ public:
     bool CheckQuit() const;
     void Quit();
 
-    unsigned long FdCount();
+    long GetFdCount();
+    bool FdCountLessThan(long n);
 
 };
 

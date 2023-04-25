@@ -53,13 +53,13 @@ void TcpServer::NewConnection(std::unique_ptr<Socket> sock) {
     }
     if(!sub_reactors_.empty()) {
         unsigned long index = 0;
-        unsigned long minimal_fd = sub_reactors_[0]->FdCount();
+        long minimal_fd = sub_reactors_[0]->GetFdCount();
         // Note: look for the epoll that has the least fd mounted on it
         for(unsigned long i=0; i<sub_reactors_.size(); i++) {
             std::string message = "epfd.";
-            message = message+std::to_string(sub_reactors_[i]->GetEpfd())+" has "+std::to_string(sub_reactors_[i]->FdCount())+" sockfds";
+            message = message+std::to_string(sub_reactors_[i]->GetEpfd())+" has "+std::to_string(sub_reactors_[i]->GetFdCount())+" sockfds";
             logger_.DEBUG(message.c_str());
-            if(sub_reactors_[i]->FdCount() < minimal_fd)
+            if(sub_reactors_[i]->FdCountLessThan(minimal_fd))
                 index = i;
         }
         connections_.PushBack(sub_reactors_[index].get(), std::move(sock));
