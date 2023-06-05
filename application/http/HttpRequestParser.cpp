@@ -28,7 +28,9 @@ void HttpRequestParser::Parse() {
         if(url_ == "/") {
             url_ = "../static_files/index.html";  // use relative path to make the project more portable
         } else {
-            url_ = ".." + url_;
+            if(url_.substr(0, 2) != "..") {
+                url_ = ".." + url_;
+            }
         }
     }
     if(method_ == "POST" ) {
