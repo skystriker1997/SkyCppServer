@@ -1,7 +1,7 @@
 In my view, the most essential things of dynamic programming are:
 
 - Determine the meaning of `dp[i][j]`(each cell of dynamic programming matrix)
-- Determine the direction of deducing(building up the dynamic programming matrix)
+- Determine the formula to progressively build up the dynamic programming matrix
 
 [LeetCode 174 Dungeon Game](https://leetcode.com/problems/dungeon-game/description/)
 
