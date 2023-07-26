@@ -2,8 +2,9 @@
 
 ### Overview
 
-SkyNetlib is a network library written by C++. Although it is still in development, I already built up the framework of the library and demonstrated applications based on the library. 
-SkyNetlib's core mechanism follows reactor pattern, which is achieved by deploying epolls monitoring file descriptors assigned proper callback function to handle events(read/write). To make better use of computer resources, I assign each epoll's execution to a separate thread. Below is the UML diagram.
+SkyNetlib is a C++ network library that I developed, encompassing a well-established framework and a demonstrated application. The library's core mechanism adheres to the reactor pattern, utilizing epolls to monitor file descriptors and assigning appropriate callback functions for event handling (read/write). To optimize computer resource utilization, each epoll's execution is assigned to a dedicated thread. 
+
+**UML Diagram:**
 ![UML](./static_files/skynetlib.png)
 
 &nbsp;
